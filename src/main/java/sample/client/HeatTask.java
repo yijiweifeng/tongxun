@@ -2,9 +2,6 @@ package sample.client;
 
 import io.netty.channel.ChannelHandlerContext;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Created with IntelliJ IDEA.
  * User: joker

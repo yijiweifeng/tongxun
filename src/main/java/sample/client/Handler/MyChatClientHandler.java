@@ -1,7 +1,9 @@
-package sample.client;
+package sample.client.Handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import sample.client.HeatTask;
+import sample.client.MyChatClient;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

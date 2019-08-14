@@ -6,10 +6,22 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.ToolBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import sample.client.MyChatClient;
+import sample.client.IMSClientBootstrap;
+import sample.client.MessageProcessor;
+import sample.client.MessageType;
+import sample.client.NettyTcpClient;
+import sample.client.bean.SingleMessage;
+import sample.client.event.CEventCenter;
+import sample.client.event.Events;
+import sample.client.event.I_CEventListener;
+import sample.client.listener.impl.IMSConnectStatusCallbackImpl;
+import sample.client.listener.impl.OnEventListenerImpl;
+import sample.client.protobuf.MessageProtobuf;
+import sample.client.utils.CThreadPoolExecutor;
+import sample.client.utils.MessageBuilder;
+import sample.itf.IMSClientInterface;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -17,6 +29,8 @@ import java.sql.DriverManager;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.UUID;
+import java.util.Vector;
 
 public class Controller implements Initializable {
 
@@ -46,23 +60,15 @@ public class Controller implements Initializable {
 
     private static StringBuffer sb = new StringBuffer();
 
-    private MyChatClient myChatClient = new MyChatClient();
+    private NettyTcpClient myChatClient = NettyTcpClient.getInstance();
 
-    private static Connection connection;
+    public static final String[] EVENTS = {
+            Events.CHAT_SINGLE_MESSAGE
+    };
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        connection = initializeDB();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    myChatClient.testClientRun();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+
     }
 
     public void showDateTime(ActionEvent event) {
@@ -73,7 +79,8 @@ public class Controller implements Initializable {
             sb.append(sdf.format(date) + "\n");
             sb.append(sendTextStr + "\n" + "\n");
             window.setText(sb.toString());
-            myChatClient.sendMsg(sdf.format(date) + "\n" + sendTextStr);
+//            myChatClient.sendMsg(sdf.format(date) + "\n" + sendTextStr);
+            Demo.send("100002","100001",sdf.format(date) + "\n" + sendTextStr);
         }
     }
 
@@ -85,24 +92,5 @@ public class Controller implements Initializable {
     //获取好友列表
     public void showMyUser(ActionEvent event){
 
-    }
-
-    private Connection initializeDB() {
-        Connection conn = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/tongxun", "root", "root");
-            System.out.println("Database connected");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return conn;
-    }
-
-    public void login(){
-        loginModel.setVisible(false);
-        loginModel.setManaged(false);
-        windowModel.setVisible(true);
-        windowModel.setManaged(true);
     }
 }

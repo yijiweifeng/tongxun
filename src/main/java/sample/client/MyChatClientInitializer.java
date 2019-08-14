@@ -8,6 +8,7 @@ import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
+import sample.client.Handler.MyChatClientHandler;
 
 /**
  * Created with IntelliJ IDEA.
