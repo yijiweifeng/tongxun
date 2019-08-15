@@ -1,16 +1,10 @@
 package test;
 
-import sample.Controller;
 import sample.client.IMSClientBootstrap;
-import sample.client.MessageProcessor;
 import sample.client.MessageType;
 import sample.client.NettyTcpClient;
 import sample.client.bean.SingleMessage;
-import sample.client.event.CEventCenter;
-import sample.client.event.Events;
-import sample.client.event.I_CEventListener;
 import sample.client.protobuf.MessageProtobuf;
-import sample.client.utils.CThreadPoolExecutor;
 import sample.client.utils.MessageBuilder;
 
 import java.util.UUID;

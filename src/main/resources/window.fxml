@@ -10,12 +10,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.TextArea?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.WindowController">
    <children>
       <Pane id="leftMenu" prefHeight="400.0" prefWidth="50.0" style="-fx-background-color: #FFB6C1;">
          <children>
-            <Label layoutY="50.0" prefHeight="50.0" prefWidth="50.0" text="Label" />
+            <Label layoutY="50.0" prefHeight="50.0" prefWidth="50.0" text="消息" textAlignment="CENTER" textFill="#0059b9" wrapText="true" />
          </children>
       </Pane>
       <Pane layoutX="50.0" prefHeight="50.0" prefWidth="550.0" style="-fx-background-color: #FF1493;" />

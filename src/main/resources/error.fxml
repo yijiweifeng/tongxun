@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="150.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.ErrorController">
+   <children>
+      <Button fx:id="hideError" layoutX="110.0" layoutY="82.0" mnemonicParsing="false" onAction="#close" prefHeight="37.0" prefWidth="80.0" text="确定" />
+      <Text fill="#e32d2d" layoutX="66.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="账号或密码不能为空!" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

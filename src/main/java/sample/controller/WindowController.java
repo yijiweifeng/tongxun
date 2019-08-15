@@ -1,4 +1,4 @@
-package sample;
+package sample.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,31 +8,19 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import sample.client.IMSClientBootstrap;
-import sample.client.MessageProcessor;
-import sample.client.MessageType;
+import org.apache.log4j.Logger;
+import sample.Demo;
 import sample.client.NettyTcpClient;
-import sample.client.bean.SingleMessage;
-import sample.client.event.CEventCenter;
 import sample.client.event.Events;
-import sample.client.event.I_CEventListener;
-import sample.client.listener.impl.IMSConnectStatusCallbackImpl;
-import sample.client.listener.impl.OnEventListenerImpl;
-import sample.client.protobuf.MessageProtobuf;
-import sample.client.utils.CThreadPoolExecutor;
-import sample.client.utils.MessageBuilder;
-import sample.itf.IMSClientInterface;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.UUID;
-import java.util.Vector;
 
-public class Controller implements Initializable {
+public class WindowController implements Initializable {
+
+    private static Logger logger = Logger.getLogger(WindowController.class);
 
     @FXML
     private Button send;

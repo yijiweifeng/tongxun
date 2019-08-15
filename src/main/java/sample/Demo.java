@@ -19,6 +19,9 @@ import java.util.UUID;
 public class Demo {
 
     public static void send(String fromID,String toId,String msg){
+        String token = "token_" + fromID;
+        String hosts = "[{\"host\":\"192.168.9.64\", \"port\":8855}]";
+        IMSClientBootstrap.getInstance().init(fromID, token, hosts, 1);
         SingleMessage message = new SingleMessage();
         message.setMsgId(UUID.randomUUID().toString());
         message.setMsgType(MessageType.SINGLE_CHAT.getMsgType());
@@ -26,7 +29,7 @@ public class Demo {
         message.setFromId(fromID);
         message.setToId(toId);
         message.setTimestamp(System.currentTimeMillis());
-        message.setContent("1111");
+        message.setContent(msg);
         MessageProtobuf.Msg build = MessageBuilder.getProtoBufMessageBuilderByAppMessage(MessageBuilder.buildAppMessage(message)).build();
         NettyTcpClient.getInstance().sendMsg(build);
     }

@@ -5,17 +5,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.fxmlinit.FxmlInitCtroller;
 
 public class Main extends Application {
 
+    private FxmlInitCtroller fxmlInitCtroller = FxmlInitCtroller.getInstance();
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        Scene scene = new Scene(root, 1000, 800);
-//        scene.getStylesheets().add("application.css");
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
+        primaryStage.setTitle("login");
+        Scene scene = new Scene(root, 300, 300);
         primaryStage.setScene(scene);
         primaryStage.show();
+        fxmlInitCtroller.setStage(primaryStage);
     }
 
 
