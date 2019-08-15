@@ -1,10 +1,13 @@
 package sample.controller;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import sample.client.utils.StrCacheUtil;
 import sample.fxmlinit.FxmlInitCtroller;
 
 import java.io.IOException;
@@ -22,14 +25,23 @@ public class ErrorController implements Initializable {
 
     private FxmlInitCtroller fxmlInitCtroller = FxmlInitCtroller.getInstance();
 
+    private StrCacheUtil strCacheUtil = StrCacheUtil.getInstance();
+
+    @FXML
+    private Text errorText;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        if(strCacheUtil.getErrorMsg() == null || strCacheUtil.getErrorMsg().isEmpty()){
+            errorText.setText("账号或密码不能为空!");
+        }else{
+            errorText.setText(strCacheUtil.getErrorMsg());
+        }
     }
 
     public void close() throws IOException {
         Stage stage = fxmlInitCtroller.getStage();
-        stage.hide();
+        stage.close();
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
         stage.setTitle("login");
         Scene scene = new Scene(root, 300, 300);

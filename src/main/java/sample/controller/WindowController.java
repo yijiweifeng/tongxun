@@ -10,9 +10,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import org.apache.log4j.Logger;
 import sample.Demo;
+import sample.client.IMSClientBootstrap;
 import sample.client.NettyTcpClient;
 import sample.client.event.Events;
+import sample.client.utils.PropertiesUtil;
+import sample.client.utils.UserInfoCacheUtil;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,6 +25,8 @@ import java.util.ResourceBundle;
 public class WindowController implements Initializable {
 
     private static Logger logger = Logger.getLogger(WindowController.class);
+
+    private UserInfoCacheUtil userInfoCacheUtil = UserInfoCacheUtil.getInstance();
 
     @FXML
     private Button send;
@@ -56,7 +62,14 @@ public class WindowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        String token = "token_" + userInfoCacheUtil.getUserId();
+        String hosts = null;
+        try {
+            hosts = "[{\"host\":\"" + PropertiesUtil.getPro("connect.properties", "connect.server.ip") + "\", \"port\":" + PropertiesUtil.getPro("connect.properties", "connect.server.port") + "}]";
+            IMSClientBootstrap.getInstance().init(userInfoCacheUtil.getUserId() + "", token, hosts, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void showDateTime(ActionEvent event) {
@@ -68,17 +81,17 @@ public class WindowController implements Initializable {
             sb.append(sendTextStr + "\n" + "\n");
             window.setText(sb.toString());
 //            myChatClient.sendMsg(sdf.format(date) + "\n" + sendTextStr);
-            Demo.send("100002","100001",sdf.format(date) + "\n" + sendTextStr);
+            Demo.send("100002", "100001", sdf.format(date) + "\n" + sendTextStr);
         }
     }
 
     //新增好友
-    public void addUser(ActionEvent event){
+    public void addUser(ActionEvent event) {
 
     }
 
     //获取好友列表
-    public void showMyUser(ActionEvent event){
+    public void showMyUser(ActionEvent event) {
 
     }
 }

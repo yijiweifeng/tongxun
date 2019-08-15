@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -12,12 +14,42 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.WindowController">
    <children>
-      <Pane id="leftMenu" prefHeight="400.0" prefWidth="50.0" style="-fx-background-color: #FFB6C1;">
+      <Pane id="leftMenu" prefHeight="400.0" prefWidth="50.0" style="-fx-background-color: #A895BF;">
          <children>
-            <Label layoutY="50.0" prefHeight="50.0" prefWidth="50.0" text="消息" textAlignment="CENTER" textFill="#0059b9" wrapText="true" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutY="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #B2FFAE;" text="消息" textAlignment="CENTER" textFill="#0061ab" textOverrun="CLIP" wrapText="true" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutY="100.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #FFFEAE;" text="通讯录" textAlignment="CENTER" textFill="#0059b9" textOverrun="CLIP" wrapText="true" />
          </children>
       </Pane>
-      <Pane layoutX="50.0" prefHeight="50.0" prefWidth="550.0" style="-fx-background-color: #FF1493;" />
-      <Pane layoutX="50.0" layoutY="50.0" prefHeight="350.0" prefWidth="550.0" style="-fx-background-color: #6495ED;" />
+      <Pane layoutX="50.0" prefHeight="50.0" prefWidth="550.0" style="-fx-background-color: #D6B5FF;">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="450.0" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #6B3BA6;" text="用户" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true" />
+         </children></Pane>
+      <Pane layoutX="50.0" layoutY="50.0" prefHeight="350.0" prefWidth="550.0" style="-fx-background-color: #6495ED;">
+         <children>
+            <SplitPane dividerPositions="0.18795620437956204" prefHeight="350.0" prefWidth="550.0" style="-fx-background-color: #FFC2E6;">
+              <items>
+                <AnchorPane maxHeight="350.0" maxWidth="200.0" minHeight="350.0" minWidth="100.0" prefHeight="350.0" prefWidth="180.0" style="-fx-background-color: #FFC2E6;" />
+                <AnchorPane prefHeight="350.0" prefWidth="356.0">
+                     <children>
+                        <GridPane layoutX="110.0" layoutY="85.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="200.0" minHeight="200.0" prefHeight="200.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFF9D2;" GridPane.rowIndex="2" />
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F6D4FF;" GridPane.rowIndex="1" />
+                              <AnchorPane prefHeight="50.0" style="-fx-background-color: #DCFFAE;" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+         </children></Pane>
    </children>
 </Pane>
