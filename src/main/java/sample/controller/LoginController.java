@@ -9,7 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sample.client.IMSClientBootstrap;
+import sample.client.cache.StrCache;
+import sample.client.cache.UserInfoCache;
 import sample.client.utils.*;
 import sample.fxmlinit.FxmlInitCtroller;
 
@@ -30,9 +31,9 @@ public class LoginController implements Initializable {
 
     private FxmlInitCtroller fxmlInitCtroller = FxmlInitCtroller.getInstance();
 
-    private StrCacheUtil strCacheUtil = StrCacheUtil.getInstance();
+    private StrCache strCache = StrCache.getInstance();
 
-    private UserInfoCacheUtil userInfoCacheUtil = UserInfoCacheUtil.getInstance();
+    private UserInfoCache userInfoCache = UserInfoCache.getInstance();
 
     @FXML
     private TextField account;
@@ -57,13 +58,13 @@ public class LoginController implements Initializable {
             JSONObject jsonObject = JSONObject.parseObject(post);
             if(jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")){
                 Map<String,Object> data = (Map<String,Object>)jsonObject.get("data");
-                Integer id = Integer.valueOf(data.get("id").toString());
-                userInfoCacheUtil.setTel((Long)(data.get("tel")));
-                userInfoCacheUtil.setUserId(id);
-                userInfoCacheUtil.setUserName(data.get("name").toString());
+                Long id = Long.valueOf(data.get("id").toString());
+                userInfoCache.setTel(Long.valueOf(data.get("tel").toString()));
+                userInfoCache.setUserId(id);
+                userInfoCache.setUserName(data.get("name").toString());
                 showWindowModel();
             }else{
-                strCacheUtil.setErrorMsg(jsonObject.getString("desc"));
+                strCache.setErrorMsg(jsonObject.getString("desc"));
                 showErrorModel();
             }
         }
@@ -80,7 +81,7 @@ public class LoginController implements Initializable {
                 sb.append("手机号格式错误,请重新输入!");
             }
             if(sb.length() > 0){
-                strCacheUtil.setErrorMsg(sb.toString());
+                strCache.setErrorMsg(sb.toString());
                 showErrorModel();
                 return;
             }
@@ -97,7 +98,7 @@ public class LoginController implements Initializable {
                     showWindowModel();
                 }
             }else{
-                strCacheUtil.setErrorMsg(sb.toString());
+                strCache.setErrorMsg(sb.toString());
                 showErrorModel();
             }
         }
