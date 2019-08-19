@@ -16,6 +16,10 @@ public class ChatWindowCache {
 
     private Long toId;
 
+    private String name;
+
+    private Long tel;
+
     private static ChatWindowCache chatWindowCache;
 
     public static ChatWindowCache getInstance(){

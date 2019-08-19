@@ -31,6 +31,8 @@ public class MessageHandlerFactory {
         HANDLERS.put(MessageType.GROUP_CHAT.getMsgType(), new GroupChatMessageHandler());
         /** 服务端返回的消息发送状态报告处理handler */
         HANDLERS.put(MessageType.SERVER_MSG_SENT_STATUS_REPORT.getMsgType(), new ServerReportMessageHandler());
+        /** 客户端提交的消息接收状态报告 */
+        HANDLERS.put(MessageType.CLIENT_MSG_RECEIVED_STATUS_REPORT.getMsgType(), new ClientReportMessageHandler());
     }
 
     /**

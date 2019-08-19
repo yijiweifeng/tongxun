@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
@@ -12,29 +13,41 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.TextArea?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.WindowController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.WindowController">
    <children>
-      <Pane id="leftMenu" prefHeight="400.0" prefWidth="50.0" style="-fx-background-color: #A895BF;">
+      <Pane id="leftMenu" prefHeight="400.0" prefWidth="100.0" style="-fx-background-color: #A895BF;">
          <children>
-            <Label fx:id="massge" alignment="CENTER" contentDisplay="CENTER" layoutY="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #B2FFAE;" text="消息" textAlignment="CENTER" textFill="#0061ab" textOverrun="CLIP" wrapText="true" />
-            <Label fx:id="mailList" alignment="CENTER" contentDisplay="CENTER" layoutY="100.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #FFFEAE;" text="通讯录" textAlignment="CENTER" textFill="#0059b9" textOverrun="CLIP" wrapText="true" />
+            <Label fx:id="massge" alignment="CENTER" contentDisplay="CENTER" layoutY="50.0" onMouseClicked="#showMassgeList" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #B2FFAE;" text="消息" textAlignment="CENTER" textFill="#0061ab" textOverrun="CLIP" wrapText="true" />
+            <Label fx:id="mailList" alignment="CENTER" contentDisplay="CENTER" layoutY="100.0" onMouseClicked="#showOrHideList" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #FFFEAE;" text="通讯录" textAlignment="CENTER" textFill="#0059b9" textOverrun="CLIP" wrapText="true" />
+            <VBox fx:id="modelBox" alignment="CENTER" layoutY="150.0" prefHeight="100.0" prefWidth="100.0" visible="false">
+               <children>
+                  <Label fx:id="myFriend" alignment="CENTER" onMouseClicked="#showMyUser" prefHeight="25.0" prefWidth="100.0" text="我的好友" textFill="WHITE" />
+                  <Label fx:id="myGroup" alignment="CENTER" prefHeight="25.0" prefWidth="100.0" text="我的群组" textFill="WHITE" />
+                  <Label fx:id="addFriend" alignment="CENTER" onMouseClicked="#addUser" prefHeight="25.0" prefWidth="100.0" text="添加好友" textFill="WHITE" />
+                  <Label fx:id="addGroup" alignment="CENTER" prefHeight="25.0" prefWidth="100.0" text="添加群组" textFill="WHITE" />
+               </children>
+            </VBox>
          </children>
       </Pane>
-      <Pane layoutX="50.0" prefHeight="50.0" prefWidth="550.0" style="-fx-background-color: #D6B5FF;">
+      <Pane layoutX="100.0" prefHeight="50.0" prefWidth="550.0" style="-fx-background-color: #D6B5FF;">
          <children>
             <Label fx:id="userName" alignment="CENTER" contentDisplay="CENTER" layoutX="450.0" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #6B3BA6;" text="用户" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true" />
          </children></Pane>
-      <Pane layoutX="50.0" layoutY="50.0" prefHeight="350.0" prefWidth="550.0" style="-fx-background-color: #6495ED;">
+      <Pane layoutX="100.0" layoutY="50.0" prefHeight="350.0" prefWidth="550.0" style="-fx-background-color: #6495ED;">
          <children>
-            <SplitPane dividerPositions="0.3704379562043796" prefHeight="350.0" prefWidth="550.0" style="-fx-background-color: #FFC2E6;">
+            <SplitPane dividerPositions="0.29744525547445255" prefHeight="350.0" prefWidth="550.0">
               <items>
-                <AnchorPane maxHeight="350.0" maxWidth="200.0" minHeight="350.0" minWidth="100.0" prefHeight="350.0" prefWidth="180.0" style="-fx-background-color: #FFC2E6;">
+                <AnchorPane maxHeight="350.0" maxWidth="150.0" minHeight="350.0" minWidth="150.0" prefHeight="350.0" prefWidth="150.0">
                      <children>
-                        <GridPane fx:id="userList" layoutX="1.0" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #00CC00;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" />
-                          </columnConstraints>
-                        </GridPane>
+                        <ScrollPane maxHeight="350.0" maxWidth="150.0" minHeight="350.0" minWidth="150.0" prefHeight="350.0" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <GridPane fx:id="userList" prefWidth="148.0" style="-fx-background-color: #00CC00;">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                </columnConstraints>
+                              </GridPane>
+                           </content>
+                        </ScrollPane>
                      </children></AnchorPane>
                 <AnchorPane prefHeight="350.0" prefWidth="339.0">
                      <children>
@@ -48,9 +61,30 @@
                             <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFF9D2;" GridPane.rowIndex="2" />
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F6D4FF;" GridPane.rowIndex="1" />
-                              <AnchorPane fx:id="chatUserTop" prefHeight="50.0" style="-fx-background-color: #DCFFAE;" />
+                              <AnchorPane fx:id="inputAndSend" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFF9D2;" visible="false" GridPane.rowIndex="2">
+                                 <children>
+                                    <TextArea fx:id="inputText" layoutY="19.0" prefHeight="100.0" prefWidth="186.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="0.0" />
+                                    <Button layoutX="273.0" layoutY="39.0" mnemonicParsing="false" onAction="#sendMassge" prefWidth="80.0" text="发送" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children></AnchorPane>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                 <children>
+                                    <ScrollPane fx:id="recoreModel" prefWidth="375.0" style="-fx-background-color: #F6D4FF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <content>
+                                          <GridPane fx:id="chatRecord" prefWidth="375.0" style="-fx-background-color: #F6D4FF;">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                             <padding>
+                                                <Insets left="10.0" right="10.0" />
+                                             </padding>
+                                          </GridPane>
+                                       </content>
+                                    </ScrollPane>
+                                 </children></AnchorPane>
+                              <AnchorPane prefHeight="50.0" style="-fx-background-color: #DCFFAE;">
+                                 <children>
+                                    <Label fx:id="chatUserTop" layoutX="76.0" layoutY="18.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children></AnchorPane>
                            </children>
                         </GridPane>
                      </children>

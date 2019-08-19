@@ -61,7 +61,7 @@ public class LoginController implements Initializable {
                 Long id = Long.valueOf(data.get("id").toString());
                 userInfoCache.setTel(Long.valueOf(data.get("tel").toString()));
                 userInfoCache.setUserId(id);
-                userInfoCache.setUserName(data.get("name").toString());
+                userInfoCache.setUserName(data.get("name") != null ? data.get("name").toString() : "");
                 showWindowModel();
             }else{
                 strCache.setErrorMsg(jsonObject.getString("desc"));
@@ -91,11 +91,19 @@ public class LoginController implements Initializable {
             if(sb.length() == 0){
                 String accountText = account.getText();
                 String passwordText = password.getText();
-                String params = "tel=" + accountText + "&password" + passwordText;
+                String params = "tel=" + accountText + "&password=" + passwordText;
                 String post = HttpUtil.sendPost(ApiUrlManager.regiser() + "?" + params, "");
                 JSONObject jsonObject = JSONObject.parseObject(post);
                 if(jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")){
+                    Map<String,Object> data = (Map<String,Object>)jsonObject.get("data");
+                    Long id = Long.valueOf(data.get("id").toString());
+                    userInfoCache.setTel(Long.valueOf(data.get("tel").toString()));
+                    userInfoCache.setUserId(id);
+                    userInfoCache.setUserName(data.get("name") != null ? data.get("name").toString() : "");
                     showWindowModel();
+                }else if(jsonObject.getString("desc") != null){
+                    strCache.setErrorMsg(jsonObject.getString("desc"));
+                    showErrorModel();
                 }
             }else{
                 strCache.setErrorMsg(sb.toString());
@@ -109,7 +117,7 @@ public class LoginController implements Initializable {
         stage.close();
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("window.fxml"));
         stage.setTitle("window");
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 650, 400);
         stage.setScene(scene);
         stage.show();
     }
