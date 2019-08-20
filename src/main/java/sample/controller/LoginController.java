@@ -1,6 +1,7 @@
 package sample.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import sample.client.cache.StrCache;
 import sample.client.cache.UserInfoCache;
 import sample.client.utils.*;
@@ -119,6 +121,12 @@ public class LoginController implements Initializable {
         Scene scene = new Scene(root, 650, 400);
         stage.setScene(scene);
         stage.show();
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                System.exit(0);
+            }
+        });
     }
 
     private void showErrorModel() throws IOException {

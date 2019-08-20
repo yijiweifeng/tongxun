@@ -10,13 +10,17 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import lombok.Data;
 import org.apache.log4j.Logger;
@@ -25,6 +29,7 @@ import sample.client.MessageType;
 import sample.client.NettyTcpClient;
 import sample.client.bean.ChatRecodeBean;
 import sample.client.bean.GoodFriendBean;
+import sample.client.bean.GroupBean;
 import sample.client.bean.SingleMessage;
 import sample.client.cache.ChatMessageCache;
 import sample.client.cache.ChatWindowCache;
@@ -41,6 +46,7 @@ import sample.client.utils.PropertiesUtil;
 import sample.fxmlinit.FxmlInitCtroller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -69,7 +75,7 @@ public class WindowController implements Initializable {
     private GridPane userList;
 
     @FXML
-    private Label chatUserTop;
+    private Pane chatUserTop;
 
     @FXML
     private GridPane chatRecord;
@@ -113,11 +119,6 @@ public class WindowController implements Initializable {
         stage.show();
     }
 
-    //新增群组
-    public void addGroup() {
-
-    }
-
     //获取好友列表
     public void showMyUser() {
         List<JSONObject> data = queryMyUser();
@@ -131,14 +132,19 @@ public class WindowController implements Initializable {
             label.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
+                    chatUserTop.getChildren().clear();
                     inputAndSend.setVisible(true);
                     chatMessageCache.getUserNoReceiveSingerMsgMap().put(goodFriendBean.getId(),0);
                     chatWindowCache.setFromId(userInfoCache.getUserId());
                     chatWindowCache.setToId(goodFriendBean.getId());
                     chatWindowCache.setName(goodFriendBean.getName());
                     chatWindowCache.setTel(goodFriendBean.getTel());
-                    chatUserTop.setText(goodFriendBean.getName() + "\n" + goodFriendBean.getTel());
-                    chatUserTop.setPadding(new Insets(5));
+                    Label lab = new Label();
+                    lab.setText(goodFriendBean.getName() + "\n" + goodFriendBean.getTel());
+                    lab.setPrefWidth(350);
+                    lab.setPrefHeight(50);
+                    lab.setPadding(new Insets(5));
+                    chatUserTop.getChildren().add(lab);
                     updateChatRecord();
                 }
             });
@@ -187,6 +193,7 @@ public class WindowController implements Initializable {
             label.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
+                    chatUserTop.getChildren().clear();
                     showSingleChatList();
                     inputAndSend.setVisible(true);
                     chatMessageCache.getUserNoReceiveSingerMsgMap().put(goodFriendBean.getId(),0);
@@ -194,8 +201,12 @@ public class WindowController implements Initializable {
                     chatWindowCache.setToId(goodFriendBean.getId());
                     chatWindowCache.setName(goodFriendBean.getName());
                     chatWindowCache.setTel(goodFriendBean.getTel());
-                    chatUserTop.setText(goodFriendBean.getName() + "\n" + goodFriendBean.getTel());
-                    chatUserTop.setPadding(new Insets(5));
+                    Label lab = new Label();
+                    lab.setText(goodFriendBean.getName() + "\n" + goodFriendBean.getTel());
+                    lab.setPrefWidth(350);
+                    lab.setPrefHeight(50);
+                    lab.setPadding(new Insets(5));
+                    chatUserTop.getChildren().add(lab);
                     updateChatRecord();
                 }
             });
@@ -226,7 +237,11 @@ public class WindowController implements Initializable {
         if (!inputText.getText().isEmpty() && chatWindowCache.getToId() != null) {
             SingleMessage message = new SingleMessage();
             message.setMsgId(UUID.randomUUID().toString());
-            message.setMsgType(MessageType.SINGLE_CHAT.getMsgType());
+            if(chatWindowCache.getTel().longValue() == 0){
+                message.setMsgType(MessageType.GROUP_CHAT.getMsgType());
+            }else{
+                message.setMsgType(MessageType.SINGLE_CHAT.getMsgType());
+            }
             message.setMsgContentType(MessageType.MessageContentType.TEXT.getMsgContentType());
             message.setFromId(userInfoCache.getUserId() + "");
             message.setToId(chatWindowCache.getToId() + "");
@@ -247,6 +262,94 @@ public class WindowController implements Initializable {
         }
     }
 
+    //我的群组
+    public void showMyGroup(){
+        userList.getChildren().clear();
+        List<JSONObject> data = queryMyGroup();
+        List<GroupBean> groupBeans = parseGroupBean(data);
+        int i = 0;
+        for (final GroupBean groupBean : groupBeans) {
+            Label label = new Label();
+            label.setText(groupBean.getGroupName());
+            label.setPrefSize(148, 60);
+            label.setStyle("-fx-background-color:#39E639");
+            label.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    chatUserTop.getChildren().clear();
+                    inputAndSend.setVisible(true);
+                    chatMessageCache.getUserNoReceiveGroupMsgMap().put(groupBean.getId(),0);
+                    chatWindowCache.setFromId(userInfoCache.getUserId());
+                    chatWindowCache.setToId(groupBean.getId());
+                    chatWindowCache.setName(groupBean.getGroupName());
+                    chatWindowCache.setTel(0L);
+                    chatUserTop.setPrefSize(400,50);
+                    Label lab = new Label();
+                    lab.setText(groupBean.getGroupName());
+                    lab.setPrefWidth(350);
+                    lab.setPrefHeight(50);
+                    lab.setPadding(new Insets(5));
+                    Button button = new Button();
+                    button.setPrefSize(36,36);
+                    button.setTextFill(Paint.valueOf("WHITE"));
+                    button.setAlignment(Pos.CENTER);
+                    button.setText("+");
+                    button.setFont(Font.font(17));
+                    button.setStyle("-fx-background-color:#00CDCD;-fx-border-color:#FFFFFF");
+                    button.setLayoutX(350);
+                    button.setLayoutY(7);
+                    button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            try {
+                                joinGroup();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    chatUserTop.getChildren().add(lab);
+                    chatUserTop.getChildren().add(button);
+                    updateChatRecord();
+                }
+            });
+            label.setOnMouseExited(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    label.setStyle("-fx-background-color:#39E639");
+                }
+            });
+            label.setOnMouseMoved(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    label.setStyle("-fx-background-color:#67E667");
+                }
+            });
+            userList.add(label, 0, i);
+            i++;
+        }
+    }
+
+    //新增群组
+    public void addGroup() throws IOException {
+        Stage stage = fxmlInitCtroller.getAddGroupStage();
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("addGroup.fxml"));
+        stage.setTitle("添加群组");
+        Scene scene = new Scene(root, 300, 200);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    //添加好友到群组
+    public void joinGroup() throws IOException {
+        Stage stage = fxmlInitCtroller.getJoinGroupStage();
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("joinGroup.fxml"));
+        stage.setTitle("添加好友到群组");
+        Scene scene = new Scene(root, 650, 400);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     private List<JSONObject> queryMyUser() {
         String friend_list = ApiUrlManager.get_friend_list();
         String post = HttpUtil.sendPost(friend_list + "?id=" + userInfoCache.getUserId(), "");
@@ -256,6 +359,34 @@ public class WindowController implements Initializable {
             return data;
         }
         return null;
+    }
+
+    private List<JSONObject> queryMyGroup() {
+        List<JSONObject> list = new ArrayList<>();
+        List<JSONObject> data = new ArrayList<>();
+        String get_my_cteate_group_list = ApiUrlManager.get_my_cteate_group_list();
+        String post = HttpUtil.sendPost(get_my_cteate_group_list + "?id=" + userInfoCache.getUserId(), "");
+        JSONObject jsonObject = JSONObject.parseObject(post);
+        if (jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")) {
+            data.addAll((List<JSONObject>) (jsonObject.get("data")));
+        }
+        String get_my_join_group_list = ApiUrlManager.get_my_join_group_list();
+        post = HttpUtil.sendPost(get_my_join_group_list + "?id=" + userInfoCache.getUserId(), "");
+        jsonObject = JSONObject.parseObject(post);
+        if (jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")) {
+            data.addAll((List<JSONObject>) (jsonObject.get("data")));
+        }
+        Map<Long,JSONObject> map = new HashMap<>();
+        for(JSONObject object : data){
+            Long id = object.getLong("id");
+            if(!map.containsKey(id)){
+                map.put(id,object);
+            }
+        }
+        for(Long id : map.keySet()){
+            list.add(map.get(id));
+        }
+        return list;
     }
 
     private List<GoodFriendBean> parseGoodFriendBean(List<JSONObject> list) {
@@ -269,6 +400,19 @@ public class WindowController implements Initializable {
             goodFriendBeans.add(goodFriendBean);
         }
         return goodFriendBeans;
+    }
+
+    private List<GroupBean> parseGroupBean(List<JSONObject> list) {
+        List<GroupBean> groupBeans = new ArrayList<>();
+        for (JSONObject obj : list) {
+            GroupBean groupBean = new GroupBean();
+            groupBean.setId(obj.getLong("id"));
+            groupBean.setCreateUserId(obj.getLong("createUserId"));
+            groupBean.setGroupType(obj.getInteger("groupType"));
+            groupBean.setGroupName(obj.getString("groupName"));
+            groupBeans.add(groupBean);
+        }
+        return groupBeans;
     }
 
     private Vector<ChatRecodeBean> getChatRecode() {
@@ -286,17 +430,22 @@ public class WindowController implements Initializable {
             list.addAll(mySendList);
             list.addAll(myReceivedList);
             list.addAll(getNotSendMsg());
-            list = filterList(list);
+            try {
+                list = filterList(list);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             Collections.sort(list, Comparator.comparing(ChatRecodeBean::getSendTime));
         }
         return list;
     }
 
-    private Vector<ChatRecodeBean> filterList(Vector<ChatRecodeBean> list) {
+    private Vector<ChatRecodeBean> filterList(Vector<ChatRecodeBean> list) throws UnsupportedEncodingException {
         Map<String, ChatRecodeBean> chatRecodeBeanMap = new HashMap<>();
         Vector<ChatRecodeBean> newList = new Vector();
         for (ChatRecodeBean chatRecodeBean : list) {
             if (chatRecodeBeanMap.get(chatRecodeBean.getInfoId()) == null) {
+                chatRecodeBean.setContent(new String(chatRecodeBean.getContent().getBytes("UTF-8"),"UTF-8"));
                 chatRecodeBeanMap.put(chatRecodeBean.getInfoId(), chatRecodeBean);
             }
         }

@@ -22,9 +22,9 @@
             <VBox fx:id="modelBox" alignment="CENTER" layoutY="150.0" prefHeight="100.0" prefWidth="100.0" visible="false">
                <children>
                   <Label fx:id="myFriend" alignment="CENTER" onMouseClicked="#showMyUser" prefHeight="25.0" prefWidth="100.0" text="我的好友" textFill="WHITE" />
-                  <Label fx:id="myGroup" alignment="CENTER" prefHeight="25.0" prefWidth="100.0" text="我的群组" textFill="WHITE" />
+                  <Label fx:id="myGroup" alignment="CENTER" onMouseClicked="#showMyGroup" prefHeight="25.0" prefWidth="100.0" text="我的群组" textFill="WHITE" />
                   <Label fx:id="addFriend" alignment="CENTER" onMouseClicked="#addUser" prefHeight="25.0" prefWidth="100.0" text="添加好友" textFill="WHITE" />
-                  <Label fx:id="addGroup" alignment="CENTER" prefHeight="25.0" prefWidth="100.0" text="添加群组" textFill="WHITE" />
+                  <Label fx:id="addGroup" alignment="CENTER" onMouseClicked="#addGroup" prefHeight="25.0" prefWidth="100.0" text="添加群组" textFill="WHITE" />
                </children>
             </VBox>
          </children>
@@ -83,7 +83,7 @@
                                  </children></AnchorPane>
                               <AnchorPane prefHeight="50.0" style="-fx-background-color: #DCFFAE;">
                                  <children>
-                                    <Label fx:id="chatUserTop" layoutX="76.0" layoutY="18.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <Pane fx:id="chatUserTop" layoutX="76.0" layoutY="18.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children></AnchorPane>
                            </children>
                         </GridPane>

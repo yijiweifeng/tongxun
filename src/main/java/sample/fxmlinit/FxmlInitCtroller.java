@@ -24,6 +24,10 @@ public class FxmlInitCtroller {
 
     private Stage errorStage = new Stage();
 
+    private Stage addGroupStage = new Stage();
+
+    private Stage joinGroupStage = new Stage();
+
     private static FxmlInitCtroller fxmlInitCtroller;
 
     public static FxmlInitCtroller getInstance(){

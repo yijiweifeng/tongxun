@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.fxmlinit.FxmlInitCtroller;
 
+import java.nio.charset.Charset;
+
 public class Main extends Application {
 
     private FxmlInitCtroller fxmlInitCtroller = FxmlInitCtroller.getInstance();

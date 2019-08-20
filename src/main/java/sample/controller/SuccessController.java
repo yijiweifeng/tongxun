@@ -24,7 +24,6 @@ public class SuccessController implements Initializable {
 
     public void hideModel(){
         fxmlInitCtroller.getSuccessStage().close();
-        AddFriendController.addFriendController.getUserList();
     }
 
 }

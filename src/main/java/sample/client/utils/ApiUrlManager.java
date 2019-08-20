@@ -80,7 +80,7 @@ public class ApiUrlManager {
      * @return
      */
     public static String joinGroup() {
-        return baseUrl == null ? "" : (baseUrl + "/api/im/joinGroup");
+        return baseUrl == null ? "" : (baseUrl + "/api/im/join_group");
     }
 
     /**
