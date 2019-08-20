@@ -2,7 +2,6 @@ package sample.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +16,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.Data;
@@ -34,6 +32,7 @@ import sample.client.cache.UserInfoCache;
 import sample.client.event.CEventCenter;
 import sample.client.event.Events;
 import sample.client.listener.impl.IMSChatSingleMessageListener;
+import sample.client.listener.impl.IMSChatSingleNotMessageListener;
 import sample.client.protobuf.MessageProtobuf;
 import sample.client.utils.ApiUrlManager;
 import sample.client.utils.HttpUtil;
@@ -60,6 +59,8 @@ public class WindowController implements Initializable {
     private ChatWindowCache chatWindowCache = ChatWindowCache.getInstance();
 
     private ChatMessageCache chatMessageCache = ChatMessageCache.getInstance();
+
+    private FxmlInitCtroller fxmlInitCtroller = FxmlInitCtroller.getInstance();
 
     @FXML
     private Label userName;
@@ -94,6 +95,7 @@ public class WindowController implements Initializable {
             hosts = "[{\"host\":\"" + PropertiesUtil.getPro("connect.properties", "connect.server.ip") + "\", \"port\":" + PropertiesUtil.getPro("connect.properties", "connect.server.port") + "}]";
             IMSClientBootstrap.getInstance().init(userInfoCache.getUserId() + "", token, hosts, 1);
             CEventCenter.registerEventListener(new IMSChatSingleMessageListener(), Events.CHAT_SINGLE_MESSAGE);
+            CEventCenter.registerEventListener(new IMSChatSingleNotMessageListener(), Events.CHAT_SINGLE_MESSAGE_NOT);
             userName.setText(userInfoCache.getTel() + "");
             showMassgeList();
         } catch (IOException e) {
@@ -103,7 +105,7 @@ public class WindowController implements Initializable {
 
     //新增好友
     public void addUser() throws IOException {
-        Stage stage = new Stage();
+        Stage stage = fxmlInitCtroller.getAddUserStage();
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("addFriend.fxml"));
         stage.setTitle("添加好友");
         Scene scene = new Scene(root, 650, 400);
@@ -130,7 +132,7 @@ public class WindowController implements Initializable {
                 @Override
                 public void handle(MouseEvent event) {
                     inputAndSend.setVisible(true);
-                    chatMessageCache.getUserNoReceiveSingerMsgMap().remove(goodFriendBean.getId());
+                    chatMessageCache.getUserNoReceiveSingerMsgMap().put(goodFriendBean.getId(),0);
                     chatWindowCache.setFromId(userInfoCache.getUserId());
                     chatWindowCache.setToId(goodFriendBean.getId());
                     chatWindowCache.setName(goodFriendBean.getName());
@@ -174,15 +176,20 @@ public class WindowController implements Initializable {
                 continue;
             }
             Label label = new Label();
-            label.setText(goodFriendBean.getName() + "(" + chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId())
-                    + ")\n" + goodFriendBean.getTel());
+            if(chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId()) > 0){
+                label.setText(goodFriendBean.getName() + "(" + chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId())
+                        + ")\n" + goodFriendBean.getTel());
+            }else{
+                label.setText(goodFriendBean.getName() + "\n" + goodFriendBean.getTel());
+            }
             label.setPrefSize(148, 60);
             label.setStyle("-fx-background-color:#39E639");
             label.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
+                    showSingleChatList();
                     inputAndSend.setVisible(true);
-                    chatMessageCache.getUserNoReceiveSingerMsgMap().remove(goodFriendBean.getId());
+                    chatMessageCache.getUserNoReceiveSingerMsgMap().put(goodFriendBean.getId(),0);
                     chatWindowCache.setFromId(userInfoCache.getUserId());
                     chatWindowCache.setToId(goodFriendBean.getId());
                     chatWindowCache.setName(goodFriendBean.getName());
@@ -266,6 +273,9 @@ public class WindowController implements Initializable {
 
     private Vector<ChatRecodeBean> getChatRecode() {
         Vector<ChatRecodeBean> list = new Vector<>();
+        if(chatWindowCache == null || chatWindowCache.getToId() == null){
+            return list;
+        }
         String params = "userId=" + userInfoCache.getUserId() + "&friendOrGroupId=" + chatWindowCache.getToId() + "&infoType=1";
         String post = HttpUtil.sendPost(ApiUrlManager.get_friend_info_list() + "?" + params, "");
         JSONObject jsonObject = JSONObject.parseObject(post);
@@ -286,12 +296,8 @@ public class WindowController implements Initializable {
         Map<String, ChatRecodeBean> chatRecodeBeanMap = new HashMap<>();
         Vector<ChatRecodeBean> newList = new Vector();
         for (ChatRecodeBean chatRecodeBean : list) {
-            if (chatRecodeBean.getSendTime().equals(0L)) {
+            if (chatRecodeBeanMap.get(chatRecodeBean.getInfoId()) == null) {
                 chatRecodeBeanMap.put(chatRecodeBean.getInfoId(), chatRecodeBean);
-            } else {
-                if (chatRecodeBeanMap.get(chatRecodeBean.getInfoId()) == null) {
-                    chatRecodeBeanMap.put(chatRecodeBean.getInfoId(), chatRecodeBean);
-                }
             }
         }
         for (String key : chatRecodeBeanMap.keySet()) {
@@ -350,9 +356,6 @@ public class WindowController implements Initializable {
             } else {
                 msg = chatWindowCache.getTel() + " " + formatDateTime(chatRecodeBean.getSendTime()) + "\n";
                 label.setAlignment(Pos.CENTER_LEFT);
-            }
-            if (!chatRecodeBean.isSend()) {
-                msg += "(待接收)";
             }
             msg += chatRecodeBean.getContent();
             label.setText(msg);

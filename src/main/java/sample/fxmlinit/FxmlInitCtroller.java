@@ -18,6 +18,12 @@ public class FxmlInitCtroller {
 
     private Stage stage = new Stage();
 
+    private Stage addUserStage = new Stage();
+
+    private Stage successStage = new Stage();
+
+    private Stage errorStage = new Stage();
+
     private static FxmlInitCtroller fxmlInitCtroller;
 
     public static FxmlInitCtroller getInstance(){

@@ -114,19 +114,17 @@ public class LoginController implements Initializable {
 
     private void showWindowModel() throws IOException {
         Stage stage = fxmlInitCtroller.getStage();
-        stage.close();
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("window.fxml"));
-        stage.setTitle("window");
+        stage.setTitle("聊天");
         Scene scene = new Scene(root, 650, 400);
         stage.setScene(scene);
         stage.show();
     }
 
     private void showErrorModel() throws IOException {
-        Stage stage = fxmlInitCtroller.getStage();
-        stage.close();
+        Stage stage = fxmlInitCtroller.getErrorStage();
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("error.fxml"));
-        stage.setTitle("error");
+        stage.setTitle("错误");
         Scene scene = new Scene(root, 300, 150);
         stage.setScene(scene);
         stage.show();

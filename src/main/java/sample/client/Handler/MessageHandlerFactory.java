@@ -27,8 +27,12 @@ public class MessageHandlerFactory {
     static {
         /** 单聊消息处理handler */
         HANDLERS.put(MessageType.SINGLE_CHAT.getMsgType(), new SingleChatMessageHandler());
+        /** 单聊消息离线处理handler */
+        HANDLERS.put(MessageType.SINGLE_CHAT_NOT.getMsgType(), new SingleChatNotMessageHandler());
         /** 群聊消息处理handler */
         HANDLERS.put(MessageType.GROUP_CHAT.getMsgType(), new GroupChatMessageHandler());
+        /** 群聊消息离线处理handler */
+        HANDLERS.put(MessageType.GROUP_CHAT_NOT.getMsgType(), new GroupChatNotMessageHandler());
         /** 服务端返回的消息发送状态报告处理handler */
         HANDLERS.put(MessageType.SERVER_MSG_SENT_STATUS_REPORT.getMsgType(), new ServerReportMessageHandler());
         /** 客户端提交的消息接收状态报告 */

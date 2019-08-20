@@ -9,7 +9,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.AddFriendController">
     <children>
         <TextField fx:id="userTelInput" layoutX="20.0" layoutY="20.0" prefHeight="50.0" prefWidth="520.0" />
-        <Button fx:id="queryUser" layoutX="558.0" layoutY="20.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="70.0" text="查询" />
+        <Button fx:id="queryUser" layoutX="558.0" layoutY="20.0" onMouseClicked="#getUserList" mnemonicParsing="false" prefHeight="50.0" prefWidth="70.0" text="查询" />
         <ScrollPane hbarPolicy="NEVER" layoutX="20.0" layoutY="86.0" prefHeight="200.0" prefWidth="608.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="90.0">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="608.0">

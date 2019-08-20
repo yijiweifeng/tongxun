@@ -40,13 +40,8 @@ public class ErrorController implements Initializable {
     }
 
     public void close() throws IOException {
-        Stage stage = fxmlInitCtroller.getStage();
+        Stage stage = fxmlInitCtroller.getErrorStage();
         stage.close();
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
-        stage.setTitle("login");
-        Scene scene = new Scene(root, 300, 300);
-        stage.setScene(scene);
-        stage.show();
     }
 
 }

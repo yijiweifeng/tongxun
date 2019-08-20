@@ -39,9 +39,19 @@ public enum MessageType {
     SINGLE_CHAT(2001),
 
     /**
+     * 单聊消息离线
+     */
+    SINGLE_CHAT_NOT(2002),
+
+    /**
      * 群聊消息
      */
-    GROUP_CHAT(3001);
+    GROUP_CHAT(3001),
+
+    /**
+     * 群聊消息离线
+     */
+    GROUP_CHAT_NOT(3002);
 
     private int msgType;
 

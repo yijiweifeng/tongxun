@@ -1,26 +1,20 @@
 package sample.client.listener.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import javafx.application.Platform;
 import sample.client.bean.SingleMessage;
 import sample.client.cache.ChatMessageCache;
 import sample.client.cache.ChatWindowCache;
-import sample.client.cache.UserInfoCache;
 import sample.client.event.I_CEventListener;
-import sample.client.utils.ApiUrlManager;
-import sample.client.utils.HttpUtil;
 import sample.controller.WindowController;
-
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
  * User: joker
- * Date: 2019/8/19
- * Time: 10:08
+ * Date: 2019/8/20
+ * Time: 10:02
  * Description: No Description
  */
-public class IMSChatSingleMessageListener implements I_CEventListener {
+public class IMSChatSingleNotMessageListener implements I_CEventListener {
 
     private WindowController windowController = WindowController.windowController;
 
