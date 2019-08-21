@@ -31,11 +31,14 @@ import sample.client.bean.ChatRecodeBean;
 import sample.client.bean.GoodFriendBean;
 import sample.client.bean.GroupBean;
 import sample.client.bean.SingleMessage;
+import sample.client.cache.AllUserInfoCache;
 import sample.client.cache.ChatMessageCache;
 import sample.client.cache.ChatWindowCache;
 import sample.client.cache.UserInfoCache;
 import sample.client.event.CEventCenter;
 import sample.client.event.Events;
+import sample.client.listener.impl.IMSChatGroupMessageListener;
+import sample.client.listener.impl.IMSChatGroupNotMessageListener;
 import sample.client.listener.impl.IMSChatSingleMessageListener;
 import sample.client.listener.impl.IMSChatSingleNotMessageListener;
 import sample.client.protobuf.MessageProtobuf;
@@ -102,6 +105,8 @@ public class WindowController implements Initializable {
             IMSClientBootstrap.getInstance().init(userInfoCache.getUserId() + "", token, hosts, 1);
             CEventCenter.registerEventListener(new IMSChatSingleMessageListener(), Events.CHAT_SINGLE_MESSAGE);
             CEventCenter.registerEventListener(new IMSChatSingleNotMessageListener(), Events.CHAT_SINGLE_MESSAGE_NOT);
+            CEventCenter.registerEventListener(new IMSChatGroupMessageListener(), Events.CHAT_GROUP_MESSAGE);
+            CEventCenter.registerEventListener(new IMSChatGroupNotMessageListener(), Events.CHAT_GROUP_MESSAGE_NOT);
             userName.setText(userInfoCache.getTel() + "");
             showMassgeList();
         } catch (IOException e) {
@@ -251,7 +256,11 @@ public class WindowController implements Initializable {
             NettyTcpClient.getInstance().sendMsg(build);
             inputText.setText("");
         }
-        updateChatRecord();
+        if(chatWindowCache.getTel().longValue() == 0){
+            updateGroupChatRecord();
+        }else{
+            updateChatRecord();
+        }
     }
 
     public void showOrHideList(){
@@ -310,7 +319,7 @@ public class WindowController implements Initializable {
                     });
                     chatUserTop.getChildren().add(lab);
                     chatUserTop.getChildren().add(button);
-                    updateChatRecord();
+                    updateGroupChatRecord();
                 }
             });
             label.setOnMouseExited(new EventHandler<MouseEvent>() {
@@ -504,6 +513,36 @@ public class WindowController implements Initializable {
                 label.setAlignment(Pos.CENTER_RIGHT);
             } else {
                 msg = chatWindowCache.getTel() + " " + formatDateTime(chatRecodeBean.getSendTime()) + "\n";
+                label.setAlignment(Pos.CENTER_LEFT);
+            }
+            msg += chatRecodeBean.getContent();
+            label.setText(msg);
+
+            label.setPrefWidth(375);
+            label.setPrefHeight(50);
+            chatRecord.add(label, 0, index);
+            index++;
+        }
+        recoreModel.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        recoreModel.prefHeightProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            recoreModel.setVvalue(1);
+        });
+        recoreModel.setPrefHeight(chatRecord.getHeight());
+        recoreModel.setVvalue(1);
+    }
+
+    public void updateGroupChatRecord() {
+        chatRecord.getChildren().clear();
+        Vector<ChatRecodeBean> chatRecode = getChatRecode();
+        int index = 0;
+        for (ChatRecodeBean chatRecodeBean : chatRecode) {
+            String msg;
+            final Label label = new Label();
+            if (chatRecodeBean.getFromId().equals(userInfoCache.getUserId())) {
+                msg = userInfoCache.getTel() + " " + formatDateTime(chatRecodeBean.getSendTime()) + "\n";
+                label.setAlignment(Pos.CENTER_RIGHT);
+            } else {
+                msg = AllUserInfoCache.getInstance().getUserMap().get(chatRecodeBean.getFromId()).getLong("tel") + " " + formatDateTime(chatRecodeBean.getSendTime()) + "\n";
                 label.setAlignment(Pos.CENTER_LEFT);
             }
             msg += chatRecodeBean.getContent();
