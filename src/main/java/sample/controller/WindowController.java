@@ -424,20 +424,25 @@ public class WindowController implements Initializable {
         return groupBeans;
     }
 
-    private Vector<ChatRecodeBean> getChatRecode() {
+    private Vector<ChatRecodeBean> getChatRecode(int infoType) {
         Vector<ChatRecodeBean> list = new Vector<>();
         if(chatWindowCache == null || chatWindowCache.getToId() == null){
             return list;
         }
-        String params = "userId=" + userInfoCache.getUserId() + "&friendOrGroupId=" + chatWindowCache.getToId() + "&infoType=1";
+        String params = "userId=" + userInfoCache.getUserId() + "&friendOrGroupId=" + chatWindowCache.getToId() + "&infoType=" + infoType;
         String post = HttpUtil.sendPost(ApiUrlManager.get_friend_info_list() + "?" + params, "");
         JSONObject jsonObject = JSONObject.parseObject(post);
         if (jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")) {
             JSONObject data = (JSONObject) (jsonObject.get("data"));
-            Vector<ChatRecodeBean> mySendList = getChatRecodeBeans((List<JSONObject>) (data.get("mySendList")));
-            Vector<ChatRecodeBean> myReceivedList = getChatRecodeBeans((List<JSONObject>) (data.get("myReceivedList")));
-            list.addAll(mySendList);
-            list.addAll(myReceivedList);
+            if(infoType == 1){
+                Vector<ChatRecodeBean> mySendList = getChatRecodeBeans((List<JSONObject>) (data.get("mySendList")));
+                Vector<ChatRecodeBean> myReceivedList = getChatRecodeBeans((List<JSONObject>) (data.get("myReceivedList")));
+                list.addAll(mySendList);
+                list.addAll(myReceivedList);
+            }else{
+                Vector<ChatRecodeBean> groupInfo = getChatRecodeBeans((List<JSONObject>) (data.get("groupInfo")));
+                list.addAll(groupInfo);
+            }
             list.addAll(getNotSendMsg());
             try {
                 list = filterList(list);
@@ -503,7 +508,7 @@ public class WindowController implements Initializable {
 
     public void updateChatRecord() {
         chatRecord.getChildren().clear();
-        Vector<ChatRecodeBean> chatRecode = getChatRecode();
+        Vector<ChatRecodeBean> chatRecode = getChatRecode(1);
         int index = 0;
         for (ChatRecodeBean chatRecodeBean : chatRecode) {
             String msg;
@@ -533,7 +538,7 @@ public class WindowController implements Initializable {
 
     public void updateGroupChatRecord() {
         chatRecord.getChildren().clear();
-        Vector<ChatRecodeBean> chatRecode = getChatRecode();
+        Vector<ChatRecodeBean> chatRecode = getChatRecode(2);
         int index = 0;
         for (ChatRecodeBean chatRecodeBean : chatRecode) {
             String msg;

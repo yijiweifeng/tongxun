@@ -1,7 +1,14 @@
 package sample.client.Handler;
 
+import javafx.application.Platform;
 import org.apache.log4j.Logger;
 import sample.client.bean.AppMessage;
+import sample.client.bean.GroupByMessage;
+import sample.client.bean.SingleMessage;
+import sample.client.cache.ChatWindowCache;
+import sample.client.event.CEventCenter;
+import sample.client.event.Events;
+import sample.controller.WindowController;
 
 /**
  * <p>@ProjectName:     NettyChat</p>
@@ -21,5 +28,25 @@ public class ServerReportMessageHandler extends AbstractMessageHandler {
     @Override
     protected void action(AppMessage message) {
         logger.info(TAG + " " + "收到消息状态报告，message=" + message);
+        if(message.getHead().getStatusReport() == 1){
+            if(ChatWindowCache.getInstance().getTel().longValue() == 0){
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        //更新JavaFX的主线程的代码放在此处
+                        WindowController.windowController.updateGroupChatRecord();
+                    }
+                });
+            }else{
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        //更新JavaFX的主线程的代码放在此处
+                        WindowController.windowController.updateChatRecord();
+                    }
+                });
+            }
+        }
+
     }
 }

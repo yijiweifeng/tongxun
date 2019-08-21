@@ -36,8 +36,6 @@ public class SingleChatMessageHandler extends AbstractMessageHandler {
         msg.setTimestamp(message.getHead().getTimestamp());
         msg.setExtend(message.getHead().getExtend());
         msg.setContent(message.getBody());
-
-
         CEventCenter.dispatchEvent(Events.CHAT_SINGLE_MESSAGE, 0, 0, msg);
     }
 }
