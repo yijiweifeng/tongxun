@@ -529,10 +529,10 @@ public class WindowController implements Initializable {
             index++;
         }
         recoreModel.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        recoreModel.setPrefHeight(chatRecord.getChildren().size() * 50);
         recoreModel.prefHeightProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             recoreModel.setVvalue(1);
         });
-        recoreModel.setPrefHeight(chatRecord.getHeight());
         recoreModel.setVvalue(1);
     }
 
