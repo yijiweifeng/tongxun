@@ -17,9 +17,9 @@
    <children>
       <Pane id="leftMenu" prefHeight="400.0" prefWidth="100.0" style="-fx-background-color: #A895BF;">
          <children>
-            <Label fx:id="massge" alignment="CENTER" contentDisplay="CENTER" layoutY="50.0" onMouseClicked="#showMassgeList" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #B2FFAE;" text="消息" textAlignment="CENTER" textFill="#0061ab" textOverrun="CLIP" wrapText="true" />
-            <Label fx:id="mailList" alignment="CENTER" contentDisplay="CENTER" layoutY="100.0" onMouseClicked="#showOrHideList" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #FFFEAE;" text="通讯录" textAlignment="CENTER" textFill="#0059b9" textOverrun="CLIP" wrapText="true" />
-            <VBox fx:id="modelBox" alignment="CENTER" layoutY="150.0" prefHeight="100.0" prefWidth="100.0" visible="false">
+<!--            <Label fx:id="massge" alignment="CENTER" contentDisplay="CENTER" layoutY="50.0" onMouseClicked="#showMassgeList" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #B2FFAE;" text="消息" textAlignment="CENTER" textFill="#0061ab" textOverrun="CLIP" wrapText="true" />-->
+            <Label fx:id="mailList" alignment="CENTER" contentDisplay="CENTER" layoutY="50.0" onMouseClicked="#showOrHideList" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #FFFEAE;" text="通讯录" textAlignment="CENTER" textFill="#0059b9" textOverrun="CLIP" wrapText="true" />
+            <VBox fx:id="modelBox" alignment="CENTER" layoutY="100.0" prefHeight="100.0" prefWidth="100.0" visible="false">
                <children>
                   <Label fx:id="myFriend" alignment="CENTER" onMouseClicked="#showMyUser" prefHeight="25.0" prefWidth="100.0" text="我的好友" textFill="WHITE" />
                   <Label fx:id="myGroup" alignment="CENTER" onMouseClicked="#showMyGroup" prefHeight="25.0" prefWidth="100.0" text="我的群组" textFill="WHITE" />
@@ -33,7 +33,7 @@
          <children>
             <Label fx:id="userName" alignment="CENTER" contentDisplay="CENTER" layoutX="450.0" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #6B3BA6;" text="用户" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true" />
          </children></Pane>
-      <Pane fx:id="chatWindow" layoutX="100.0" layoutY="50.0" prefHeight="350.0" prefWidth="550.0" style="-fx-background-color: #6495ED;">
+      <Pane layoutX="100.0" layoutY="50.0" prefHeight="350.0" prefWidth="550.0" style="-fx-background-color: #6495ED;">
          <children>
             <SplitPane dividerPositions="0.29744525547445255" prefHeight="350.0" prefWidth="550.0">
               <items>
@@ -68,18 +68,8 @@
                                  </children></AnchorPane>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                                  <children>
-                                    <ScrollPane fx:id="recoreModel" prefWidth="375.0" style="-fx-background-color: #F6D4FF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <content>
-                                          <GridPane fx:id="chatRecord" prefWidth="375.0" style="-fx-background-color: #F6D4FF;">
-                                            <columnConstraints>
-                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                            </columnConstraints>
-                                             <padding>
-                                                <Insets left="10.0" right="10.0" />
-                                             </padding>
-                                          </GridPane>
-                                       </content>
-                                    </ScrollPane>
+                                      <ListView fx:id="chatRecord" prefWidth="395.0"  prefHeight="200" style="-fx-background-color: #F6D4FF;">
+                                      </ListView>
                                  </children></AnchorPane>
                               <AnchorPane prefHeight="50.0" style="-fx-background-color: #DCFFAE;">
                                  <children>

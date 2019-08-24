@@ -11,10 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -82,22 +79,16 @@ public class WindowController implements Initializable {
     private Pane chatUserTop;
 
     @FXML
-    private GridPane chatRecord;
+    private ListView chatRecord;
 
     @FXML
     private TextArea inputText;
-
-    @FXML
-    private ScrollPane recoreModel;
 
     @FXML
     private VBox modelBox;
 
     @FXML
     private AnchorPane inputAndSend;
-
-    @FXML
-    private Pane chatWindow;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -505,9 +496,9 @@ public class WindowController implements Initializable {
     }
 
     public void updateChatRecord() {
-        chatRecord.getChildren().clear();
+        chatRecord.getItems().clear();
+        chatRecord.setPrefSize(395,200);
         Vector<ChatRecodeBean> chatRecode = getChatRecode(1);
-        int index = 0;
         for (ChatRecodeBean chatRecodeBean : chatRecode) {
             String msg;
             final Label label = new Label();
@@ -521,44 +512,17 @@ public class WindowController implements Initializable {
             msg += chatRecodeBean.getContent();
             label.setText(msg);
 
-            label.setPrefWidth(375);
+            label.setPrefWidth(365);
             label.setPrefHeight(50);
-            chatRecord.add(label, 0, index);
-            index++;
+            chatRecord.getItems().add(label);
         }
-        recoreModel.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        recoreModel.setVmax(1);
-        if(chatRecord.getChildren().size() * 50 != recoreModel.getPrefHeight()){
-            recoreModel.setPrefHeight(chatRecord.getChildren().size() * 50);
-        }
-        chatWindow.setOnMouseEntered(new EventHandler<Event>() {
-            @Override
-            public void handle(Event arg0) {
-                recoreModel.setVvalue(1);
-            }
-        });
-        chatWindow.setOnMouseExited(new EventHandler<Event>() {
-            @Override
-            public void handle(Event arg0) {
-                recoreModel.setVvalue(1);
-            }
-        });
-        recoreModel.setOnMouseMoved(new EventHandler<Event>() {
-            @Override
-            public void handle(Event arg0) {
-                recoreModel.setVvalue(1);
-            }
-        });
-        recoreModel.prefHeightProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-            recoreModel.setVvalue(1);
-        });
-        recoreModel.setVvalue(1);
+        chatRecord.scrollTo(chatRecord.getItems().size()-1);
     }
 
     public void updateGroupChatRecord() {
-        chatRecord.getChildren().clear();
+        chatRecord.getItems().clear();
+        chatRecord.setPrefSize(395,200);
         Vector<ChatRecodeBean> chatRecode = getChatRecode(2);
-        int index = 0;
         for (ChatRecodeBean chatRecodeBean : chatRecode) {
             String msg;
             final Label label = new Label();
@@ -572,17 +536,11 @@ public class WindowController implements Initializable {
             msg += chatRecodeBean.getContent();
             label.setText(msg);
 
-            label.setPrefWidth(375);
+            label.setPrefWidth(365);
             label.setPrefHeight(50);
-            chatRecord.add(label, 0, index);
-            index++;
+            chatRecord.getItems().add(label);
         }
-        recoreModel.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        recoreModel.prefHeightProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-            recoreModel.setVvalue(1);
-        });
-        recoreModel.setPrefHeight(chatRecord.getHeight());
-        recoreModel.setVvalue(1);
+        chatRecord.scrollTo(chatRecord.getItems().size()-1);
     }
 
     private String formatDateTime(long dateTime) {
