@@ -2,6 +2,7 @@ package sample.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -95,6 +96,9 @@ public class WindowController implements Initializable {
     @FXML
     private AnchorPane inputAndSend;
 
+    @FXML
+    private Pane chatWindow;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         windowController = this;
@@ -126,12 +130,13 @@ public class WindowController implements Initializable {
 
     //获取好友列表
     public void showMyUser() {
+        userList.getChildren().clear();
         List<JSONObject> data = queryMyUser();
         List<GoodFriendBean> goodFriendBeans = parseGoodFriendBean(data);
         int i = 0;
         for (final GoodFriendBean goodFriendBean : goodFriendBeans) {
             Label label = new Label();
-            label.setText(goodFriendBean.getName() + "\n" + goodFriendBean.getTel());
+            label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
             label.setPrefSize(148, 60);
             label.setStyle("-fx-background-color:#39E639");
             label.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -145,7 +150,7 @@ public class WindowController implements Initializable {
                     chatWindowCache.setName(goodFriendBean.getName());
                     chatWindowCache.setTel(goodFriendBean.getTel());
                     Label lab = new Label();
-                    lab.setText(goodFriendBean.getName() + "\n" + goodFriendBean.getTel());
+                    lab.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
                     lab.setPrefWidth(350);
                     lab.setPrefHeight(50);
                     lab.setPadding(new Insets(5));
@@ -188,10 +193,15 @@ public class WindowController implements Initializable {
             }
             Label label = new Label();
             if(chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId()) > 0){
-                label.setText(goodFriendBean.getName() + "(" + chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId())
-                        + ")\n" + goodFriendBean.getTel());
+                if(goodFriendBean.getName() != null){
+                    label.setText(goodFriendBean.getName() + "(" + chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId())
+                            + ")\n" + goodFriendBean.getTel());
+                }else{
+                    label.setText(goodFriendBean.getTel() + "(" + chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId())
+                            + ")");
+                }
             }else{
-                label.setText(goodFriendBean.getName() + "\n" + goodFriendBean.getTel());
+                label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
             }
             label.setPrefSize(148, 60);
             label.setStyle("-fx-background-color:#39E639");
@@ -207,7 +217,7 @@ public class WindowController implements Initializable {
                     chatWindowCache.setName(goodFriendBean.getName());
                     chatWindowCache.setTel(goodFriendBean.getTel());
                     Label lab = new Label();
-                    lab.setText(goodFriendBean.getName() + "\n" + goodFriendBean.getTel());
+                    lab.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
                     lab.setPrefWidth(350);
                     lab.setPrefHeight(50);
                     lab.setPadding(new Insets(5));
@@ -443,7 +453,6 @@ public class WindowController implements Initializable {
                 Vector<ChatRecodeBean> groupInfo = getChatRecodeBeans((List<JSONObject>) (data.get("groupInfo")));
                 list.addAll(groupInfo);
             }
-            list.addAll(getNotSendMsg());
             try {
                 list = filterList(list);
             } catch (UnsupportedEncodingException e) {
@@ -467,17 +476,6 @@ public class WindowController implements Initializable {
             newList.add(chatRecodeBeanMap.get(key));
         }
         return newList;
-    }
-
-    private Vector<ChatRecodeBean> getNotSendMsg() {
-        Vector<ChatRecodeBean> list = new Vector<>();
-        String params = "id=" + chatWindowCache.getToId();
-        String post = HttpUtil.sendPost(ApiUrlManager.get_not_received_list() + "?" + params, "");
-        JSONObject jsonObject = JSONObject.parseObject(post);
-        if (jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")) {
-            list.addAll(getChatRecodeBeans((List<JSONObject>) (jsonObject.get("data"))));
-        }
-        return list;
     }
 
     private Vector<ChatRecodeBean> getChatRecodeBeans(List<JSONObject> list) {
@@ -529,7 +527,28 @@ public class WindowController implements Initializable {
             index++;
         }
         recoreModel.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        recoreModel.setPrefHeight(chatRecord.getChildren().size() * 50);
+        recoreModel.setVmax(1);
+        if(chatRecord.getChildren().size() * 50 != recoreModel.getPrefHeight()){
+            recoreModel.setPrefHeight(chatRecord.getChildren().size() * 50);
+        }
+        chatWindow.setOnMouseEntered(new EventHandler<Event>() {
+            @Override
+            public void handle(Event arg0) {
+                recoreModel.setVvalue(1);
+            }
+        });
+        chatWindow.setOnMouseExited(new EventHandler<Event>() {
+            @Override
+            public void handle(Event arg0) {
+                recoreModel.setVvalue(1);
+            }
+        });
+        recoreModel.setOnMouseMoved(new EventHandler<Event>() {
+            @Override
+            public void handle(Event arg0) {
+                recoreModel.setVvalue(1);
+            }
+        });
         recoreModel.prefHeightProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             recoreModel.setVvalue(1);
         });

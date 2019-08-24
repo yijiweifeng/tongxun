@@ -39,8 +39,10 @@ public class IMSChatSingleNotMessageListener implements I_CEventListener {
             @Override
             public void run() {
                 //更新JavaFX的主线程的代码放在此处
-                windowController.updateMessageList();
-                windowController.updateChatRecord();
+                if (chatWindowCache.getTel().longValue() != 0) {
+                    windowController.updateMessageList();
+                    windowController.updateChatRecord();
+                }
             }
         });
     }
