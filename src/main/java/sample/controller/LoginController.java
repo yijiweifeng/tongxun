@@ -97,12 +97,12 @@ public class LoginController implements Initializable {
                 String post = HttpUtil.sendPost(ApiUrlManager.regiser() + "?" + params, "");
                 JSONObject jsonObject = JSONObject.parseObject(post);
                 if(jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")){
-                    Map<String,Object> data = (Map<String,Object>)jsonObject.get("data");
-                    Long id = Long.valueOf(data.get("id").toString());
-                    userInfoCache.setTel(Long.valueOf(data.get("tel").toString()));
-                    userInfoCache.setUserId(id);
-                    userInfoCache.setUserName(data.get("name") != null ? data.get("name").toString() : "");
-                    showWindowModel();
+                    Stage stage = FxmlInitCtroller.getInstance().getSuccessStage();
+                    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("success.fxml"));
+                    stage.setTitle("操作成功");
+                    Scene scene = new Scene(root, 300, 200);
+                    stage.setScene(scene);
+                    stage.show();
                 }else if(jsonObject.getString("desc") != null){
                     strCache.setErrorMsg(jsonObject.getString("desc"));
                     showErrorModel();

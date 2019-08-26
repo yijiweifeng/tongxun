@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import sample.fxmlinit.FxmlInitCtroller;
 
@@ -17,6 +18,7 @@ public class Main extends Application {
         primaryStage.setTitle("登录");
         Scene scene = new Scene(root, 300, 300);
         primaryStage.setScene(scene);
+        primaryStage.getIcons().add(new Image("file:" + getClass().getClassLoader().getResource("msg.png").getPath()));
         primaryStage.show();
         fxmlInitCtroller.setStage(primaryStage);
     }

@@ -95,6 +95,18 @@ public class WindowController implements Initializable {
     @FXML
     private AnchorPane chatModel;
 
+    @FXML
+    private Label myFriend;
+
+    @FXML
+    private Label myGroup;
+
+    @FXML
+    private Label addFriend;
+
+    @FXML
+    private Label addGroup;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         windowController = this;
@@ -115,6 +127,58 @@ public class WindowController implements Initializable {
                     if(event.getCode() == KeyCode.ENTER){
                         sendMassge();
                     }
+                }
+            });
+            myFriend.setStyle("-fx-background-color:#79A5E7");
+            myFriend.setOnMouseExited(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    myFriend.setStyle("-fx-background-color:#79A5E7");
+                }
+            });
+            myFriend.setOnMouseMoved(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    myFriend.setStyle("-fx-background-color:#9BC3FF");
+                }
+            });
+            myGroup.setStyle("-fx-background-color:#79A5E7");
+            myGroup.setOnMouseExited(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    myGroup.setStyle("-fx-background-color:#79A5E7");
+                }
+            });
+            myGroup.setOnMouseMoved(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    myGroup.setStyle("-fx-background-color:#9BC3FF");
+                }
+            });
+            addFriend.setStyle("-fx-background-color:#79A5E7");
+            addFriend.setOnMouseExited(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    addFriend.setStyle("-fx-background-color:#79A5E7");
+                }
+            });
+            addFriend.setOnMouseMoved(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    addFriend.setStyle("-fx-background-color:#9BC3FF");
+                }
+            });
+            addGroup.setStyle("-fx-background-color:#79A5E7");
+            addGroup.setOnMouseExited(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    addGroup.setStyle("-fx-background-color:#79A5E7");
+                }
+            });
+            addGroup.setOnMouseMoved(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    addGroup.setStyle("-fx-background-color:#9BC3FF");
                 }
             });
         } catch (IOException e) {
