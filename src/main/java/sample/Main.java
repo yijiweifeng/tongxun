@@ -7,8 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.fxmlinit.FxmlInitCtroller;
 
-import java.nio.charset.Charset;
-
 public class Main extends Application {
 
     private FxmlInitCtroller fxmlInitCtroller = FxmlInitCtroller.getInstance();
@@ -16,7 +14,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
-        primaryStage.setTitle("login");
+        primaryStage.setTitle("登录");
         Scene scene = new Scene(root, 300, 300);
         primaryStage.setScene(scene);
         primaryStage.show();

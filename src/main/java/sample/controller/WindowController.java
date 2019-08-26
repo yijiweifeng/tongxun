@@ -103,7 +103,7 @@ public class WindowController implements Initializable {
             CEventCenter.registerEventListener(new IMSChatGroupMessageListener(), Events.CHAT_GROUP_MESSAGE);
             CEventCenter.registerEventListener(new IMSChatGroupNotMessageListener(), Events.CHAT_GROUP_MESSAGE_NOT);
             userName.setText(userInfoCache.getTel() + "");
-            showMassgeList();
+//            showMassgeList();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -129,13 +129,14 @@ public class WindowController implements Initializable {
             Label label = new Label();
             label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
             label.setPrefSize(148, 60);
-            label.setStyle("-fx-background-color:#39E639");
+            label.setStyle("-fx-background-color:#4282D3");
+            label.setTextFill(Paint.valueOf("WHITE"));
             label.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
                     chatUserTop.getChildren().clear();
                     inputAndSend.setVisible(true);
-                    chatMessageCache.getUserNoReceiveSingerMsgMap().put(goodFriendBean.getId(),0);
+                    chatMessageCache.getUserNoReceiveSingerMsgMap().put(goodFriendBean.getId(), 0);
                     chatWindowCache.setFromId(userInfoCache.getUserId());
                     chatWindowCache.setToId(goodFriendBean.getId());
                     chatWindowCache.setName(goodFriendBean.getName());
@@ -152,13 +153,13 @@ public class WindowController implements Initializable {
             label.setOnMouseExited(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    label.setStyle("-fx-background-color:#39E639");
+                    label.setStyle("-fx-background-color:#4282D3");
                 }
             });
             label.setOnMouseMoved(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    label.setStyle("-fx-background-color:#67E667");
+                    label.setStyle("-fx-background-color:#6997D3");
                 }
             });
             userList.add(label, 0, i);
@@ -183,26 +184,27 @@ public class WindowController implements Initializable {
                 continue;
             }
             Label label = new Label();
-            if(chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId()) > 0){
-                if(goodFriendBean.getName() != null){
+            if (chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId()) > 0) {
+                if (goodFriendBean.getName() != null) {
                     label.setText(goodFriendBean.getName() + "(" + chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId())
                             + ")\n" + goodFriendBean.getTel());
-                }else{
+                } else {
                     label.setText(goodFriendBean.getTel() + "(" + chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId())
                             + ")");
                 }
-            }else{
+            } else {
                 label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
             }
             label.setPrefSize(148, 60);
-            label.setStyle("-fx-background-color:#39E639");
+            label.setStyle("-fx-background-color:#4282D3");
+            label.setTextFill(Paint.valueOf("WHITE"));
             label.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
                     chatUserTop.getChildren().clear();
                     showSingleChatList();
                     inputAndSend.setVisible(true);
-                    chatMessageCache.getUserNoReceiveSingerMsgMap().put(goodFriendBean.getId(),0);
+                    chatMessageCache.getUserNoReceiveSingerMsgMap().put(goodFriendBean.getId(), 0);
                     chatWindowCache.setFromId(userInfoCache.getUserId());
                     chatWindowCache.setToId(goodFriendBean.getId());
                     chatWindowCache.setName(goodFriendBean.getName());
@@ -219,13 +221,13 @@ public class WindowController implements Initializable {
             label.setOnMouseExited(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    label.setStyle("-fx-background-color:#39E639");
+                    label.setStyle("-fx-background-color:#4282D3");
                 }
             });
             label.setOnMouseMoved(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    label.setStyle("-fx-background-color:#67E667");
+                    label.setStyle("-fx-background-color:#6997D3");
                 }
             });
             userList.add(label, 0, i);
@@ -243,9 +245,9 @@ public class WindowController implements Initializable {
         if (!inputText.getText().isEmpty() && chatWindowCache.getToId() != null) {
             SingleMessage message = new SingleMessage();
             message.setMsgId(UUID.randomUUID().toString());
-            if(chatWindowCache.getTel().longValue() == 0){
+            if (chatWindowCache.getTel().longValue() == 0) {
                 message.setMsgType(MessageType.GROUP_CHAT.getMsgType());
-            }else{
+            } else {
                 message.setMsgType(MessageType.SINGLE_CHAT.getMsgType());
             }
             message.setMsgContentType(MessageType.MessageContentType.TEXT.getMsgContentType());
@@ -257,23 +259,23 @@ public class WindowController implements Initializable {
             NettyTcpClient.getInstance().sendMsg(build);
             inputText.setText("");
         }
-        if(chatWindowCache.getTel().longValue() == 0){
+        if (chatWindowCache.getTel().longValue() == 0) {
             updateGroupChatRecord();
-        }else{
+        } else {
             updateChatRecord();
         }
     }
 
-    public void showOrHideList(){
-        if(modelBox.isVisible()){
+    public void showOrHideList() {
+        if (modelBox.isVisible()) {
             modelBox.setVisible(false);
-        }else{
+        } else {
             modelBox.setVisible(true);
         }
     }
 
     //我的群组
-    public void showMyGroup(){
+    public void showMyGroup() {
         userList.getChildren().clear();
         List<JSONObject> data = queryMyGroup();
         List<GroupBean> groupBeans = parseGroupBean(data);
@@ -282,25 +284,26 @@ public class WindowController implements Initializable {
             Label label = new Label();
             label.setText(groupBean.getGroupName());
             label.setPrefSize(148, 60);
-            label.setStyle("-fx-background-color:#39E639");
+            label.setStyle("-fx-background-color:#4282D3");
+            label.setTextFill(Paint.valueOf("WHITE"));
             label.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
                     chatUserTop.getChildren().clear();
                     inputAndSend.setVisible(true);
-                    chatMessageCache.getUserNoReceiveGroupMsgMap().put(groupBean.getId(),0);
+                    chatMessageCache.getUserNoReceiveGroupMsgMap().put(groupBean.getId(), 0);
                     chatWindowCache.setFromId(userInfoCache.getUserId());
                     chatWindowCache.setToId(groupBean.getId());
                     chatWindowCache.setName(groupBean.getGroupName());
                     chatWindowCache.setTel(0L);
-                    chatUserTop.setPrefSize(400,50);
+                    chatUserTop.setPrefSize(400, 50);
                     Label lab = new Label();
                     lab.setText(groupBean.getGroupName());
                     lab.setPrefWidth(350);
                     lab.setPrefHeight(50);
                     lab.setPadding(new Insets(5));
                     Button button = new Button();
-                    button.setPrefSize(36,36);
+                    button.setPrefSize(36, 36);
                     button.setTextFill(Paint.valueOf("WHITE"));
                     button.setAlignment(Pos.CENTER);
                     button.setText("+");
@@ -326,13 +329,13 @@ public class WindowController implements Initializable {
             label.setOnMouseExited(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    label.setStyle("-fx-background-color:#39E639");
+                    label.setStyle("-fx-background-color:#4282D3");
                 }
             });
             label.setOnMouseMoved(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    label.setStyle("-fx-background-color:#67E667");
+                    label.setStyle("-fx-background-color:#6997D3");
                 }
             });
             userList.add(label, 0, i);
@@ -386,14 +389,14 @@ public class WindowController implements Initializable {
         if (jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")) {
             data.addAll((List<JSONObject>) (jsonObject.get("data")));
         }
-        Map<Long,JSONObject> map = new HashMap<>();
-        for(JSONObject object : data){
+        Map<Long, JSONObject> map = new HashMap<>();
+        for (JSONObject object : data) {
             Long id = object.getLong("id");
-            if(!map.containsKey(id)){
-                map.put(id,object);
+            if (!map.containsKey(id)) {
+                map.put(id, object);
             }
         }
-        for(Long id : map.keySet()){
+        for (Long id : map.keySet()) {
             list.add(map.get(id));
         }
         return list;
@@ -427,7 +430,7 @@ public class WindowController implements Initializable {
 
     private Vector<ChatRecodeBean> getChatRecode(int infoType) {
         Vector<ChatRecodeBean> list = new Vector<>();
-        if(chatWindowCache == null || chatWindowCache.getToId() == null){
+        if (chatWindowCache == null || chatWindowCache.getToId() == null) {
             return list;
         }
         String params = "userId=" + userInfoCache.getUserId() + "&friendOrGroupId=" + chatWindowCache.getToId() + "&infoType=" + infoType;
@@ -435,12 +438,12 @@ public class WindowController implements Initializable {
         JSONObject jsonObject = JSONObject.parseObject(post);
         if (jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")) {
             JSONObject data = (JSONObject) (jsonObject.get("data"));
-            if(infoType == 1){
+            if (infoType == 1) {
                 Vector<ChatRecodeBean> mySendList = getChatRecodeBeans((List<JSONObject>) (data.get("mySendList")));
                 Vector<ChatRecodeBean> myReceivedList = getChatRecodeBeans((List<JSONObject>) (data.get("myReceivedList")));
                 list.addAll(mySendList);
                 list.addAll(myReceivedList);
-            }else{
+            } else {
                 Vector<ChatRecodeBean> groupInfo = getChatRecodeBeans((List<JSONObject>) (data.get("groupInfo")));
                 list.addAll(groupInfo);
             }
@@ -459,7 +462,7 @@ public class WindowController implements Initializable {
         Vector<ChatRecodeBean> newList = new Vector();
         for (ChatRecodeBean chatRecodeBean : list) {
             if (chatRecodeBeanMap.get(chatRecodeBean.getInfoId()) == null) {
-                chatRecodeBean.setContent(new String(chatRecodeBean.getContent().getBytes("UTF-8"),"UTF-8"));
+                chatRecodeBean.setContent(new String(chatRecodeBean.getContent().getBytes("UTF-8"), "UTF-8"));
                 chatRecodeBeanMap.put(chatRecodeBean.getInfoId(), chatRecodeBean);
             }
         }
@@ -497,7 +500,7 @@ public class WindowController implements Initializable {
 
     public void updateChatRecord() {
         chatRecord.getItems().clear();
-        chatRecord.setPrefSize(395,200);
+        chatRecord.setPrefSize(395, 200);
         Vector<ChatRecodeBean> chatRecode = getChatRecode(1);
         for (ChatRecodeBean chatRecodeBean : chatRecode) {
             String msg;
@@ -509,19 +512,39 @@ public class WindowController implements Initializable {
                 msg = chatWindowCache.getTel() + " " + formatDateTime(chatRecodeBean.getSendTime()) + "\n";
                 label.setAlignment(Pos.CENTER_LEFT);
             }
-            msg += chatRecodeBean.getContent();
+            String content = chatRecodeBean.getContent();
+            int line = 0;
+            if (content.length() % 29 > 0) {
+                line = (content.length() - content.length() % 29) / 29;
+                line++;
+            } else {
+                line = content.length() / 29;
+            }
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < line; i++) {
+                if (i != line - 1) {
+                    sb.append(content.substring(i * 29, (i + 1) * 29) + "\n");
+                } else {
+                    sb.append(content.substring(i * 29, content.length()));
+                }
+            }
+            msg += sb.toString();
             label.setText(msg);
 
             label.setPrefWidth(365);
-            label.setPrefHeight(50);
+            if (content.length() > 29) {
+                label.setPrefHeight(50 + (line - 1) * 20);
+            } else {
+                label.setPrefHeight(50);
+            }
             chatRecord.getItems().add(label);
         }
-        chatRecord.scrollTo(chatRecord.getItems().size()-1);
+        chatRecord.scrollTo(chatRecord.getItems().size() - 1);
     }
 
     public void updateGroupChatRecord() {
         chatRecord.getItems().clear();
-        chatRecord.setPrefSize(395,200);
+        chatRecord.setPrefSize(395, 200);
         Vector<ChatRecodeBean> chatRecode = getChatRecode(2);
         for (ChatRecodeBean chatRecodeBean : chatRecode) {
             String msg;
@@ -533,14 +556,30 @@ public class WindowController implements Initializable {
                 msg = AllUserInfoCache.getInstance().getUserMap().get(chatRecodeBean.getFromId()).getLong("tel") + " " + formatDateTime(chatRecodeBean.getSendTime()) + "\n";
                 label.setAlignment(Pos.CENTER_LEFT);
             }
-            msg += chatRecodeBean.getContent();
+            String content = chatRecodeBean.getContent();
+            int line = 0;
+            if (content.length() % 29 > 0) {
+                line = (content.length() - content.length() % 29) / 29;
+                line++;
+            } else {
+                line = content.length() / 29;
+            }
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < line; i++) {
+                if (i != line - 1) {
+                    sb.append(content.substring(i * 29, (i + 1) * 29) + "\n");
+                } else {
+                    sb.append(content.substring(i * 29, content.length()));
+                }
+            }
+            msg += sb.toString();
             label.setText(msg);
 
             label.setPrefWidth(365);
             label.setPrefHeight(50);
             chatRecord.getItems().add(label);
         }
-        chatRecord.scrollTo(chatRecord.getItems().size()-1);
+        chatRecord.scrollTo(chatRecord.getItems().size() - 1);
     }
 
     private String formatDateTime(long dateTime) {
