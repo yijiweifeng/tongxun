@@ -66,7 +66,7 @@
                                     <TextArea fx:id="inputText" layoutY="19.0" prefHeight="100.0" prefWidth="186.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="0.0" />
                                     <Button layoutX="273.0" layoutY="39.0" mnemonicParsing="false" onAction="#sendMassge" prefWidth="80.0" text="发送" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children></AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                              <AnchorPane fx:id="chatModel" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                                  <children>
                                       <ListView fx:id="chatRecord" prefWidth="395.0"  prefHeight="200" style="-fx-background-color: #F6D4FF;">
                                       </ListView>

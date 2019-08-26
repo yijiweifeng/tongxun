@@ -12,6 +12,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -90,6 +92,9 @@ public class WindowController implements Initializable {
     @FXML
     private AnchorPane inputAndSend;
 
+    @FXML
+    private AnchorPane chatModel;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         windowController = this;
@@ -103,7 +108,15 @@ public class WindowController implements Initializable {
             CEventCenter.registerEventListener(new IMSChatGroupMessageListener(), Events.CHAT_GROUP_MESSAGE);
             CEventCenter.registerEventListener(new IMSChatGroupNotMessageListener(), Events.CHAT_GROUP_MESSAGE_NOT);
             userName.setText(userInfoCache.getTel() + "");
-//            showMassgeList();
+            inputText.setWrapText(true);
+            inputText.setOnKeyReleased(new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent event) {
+                    if(event.getCode() == KeyCode.ENTER){
+                        sendMassge();
+                    }
+                }
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -242,7 +255,7 @@ public class WindowController implements Initializable {
 
     //发送信息
     public void sendMassge() {
-        if (!inputText.getText().isEmpty() && chatWindowCache.getToId() != null) {
+        if (!inputText.getText().trim().isEmpty() && chatWindowCache.getToId() != null) {
             SingleMessage message = new SingleMessage();
             message.setMsgId(UUID.randomUUID().toString());
             if (chatWindowCache.getTel().longValue() == 0) {
@@ -499,6 +512,8 @@ public class WindowController implements Initializable {
     }
 
     public void updateChatRecord() {
+        int lineSize = 25;
+        chatModel.getChildren().clear();
         chatRecord.getItems().clear();
         chatRecord.setPrefSize(395, 200);
         Vector<ChatRecodeBean> chatRecode = getChatRecode(1);
@@ -514,25 +529,25 @@ public class WindowController implements Initializable {
             }
             String content = chatRecodeBean.getContent();
             int line = 0;
-            if (content.length() % 29 > 0) {
-                line = (content.length() - content.length() % 29) / 29;
+            if (content.length() % lineSize > 0) {
+                line = (content.length() - content.length() % lineSize) / lineSize;
                 line++;
             } else {
-                line = content.length() / 29;
+                line = content.length() / lineSize;
             }
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < line; i++) {
                 if (i != line - 1) {
-                    sb.append(content.substring(i * 29, (i + 1) * 29) + "\n");
+                    sb.append(content.substring(i * lineSize, (i + 1) * lineSize) + "\n");
                 } else {
-                    sb.append(content.substring(i * 29, content.length()));
+                    sb.append(content.substring(i * lineSize, content.length()));
                 }
             }
             msg += sb.toString();
             label.setText(msg);
 
             label.setPrefWidth(365);
-            if (content.length() > 29) {
+            if (content.length() > lineSize) {
                 label.setPrefHeight(50 + (line - 1) * 20);
             } else {
                 label.setPrefHeight(50);
@@ -540,11 +555,14 @@ public class WindowController implements Initializable {
             chatRecord.getItems().add(label);
         }
         chatRecord.scrollTo(chatRecord.getItems().size() - 1);
+        chatModel.getChildren().add(chatRecord);
     }
 
     public void updateGroupChatRecord() {
+        int lineSize = 15;
+        chatModel.getChildren().clear();
         chatRecord.getItems().clear();
-        chatRecord.setPrefSize(395, 200);
+        chatRecord.setPrefSize(245, 200);
         Vector<ChatRecodeBean> chatRecode = getChatRecode(2);
         for (ChatRecodeBean chatRecodeBean : chatRecode) {
             String msg;
@@ -558,28 +576,84 @@ public class WindowController implements Initializable {
             }
             String content = chatRecodeBean.getContent();
             int line = 0;
-            if (content.length() % 29 > 0) {
-                line = (content.length() - content.length() % 29) / 29;
+            if (content.length() % lineSize > 0) {
+                line = (content.length() - content.length() % lineSize) / lineSize;
                 line++;
             } else {
-                line = content.length() / 29;
+                line = content.length() / lineSize;
             }
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < line; i++) {
                 if (i != line - 1) {
-                    sb.append(content.substring(i * 29, (i + 1) * 29) + "\n");
+                    sb.append(content.substring(i * lineSize, (i + 1) * lineSize) + "\n");
                 } else {
-                    sb.append(content.substring(i * 29, content.length()));
+                    sb.append(content.substring(i * lineSize, content.length()));
                 }
             }
             msg += sb.toString();
             label.setText(msg);
 
-            label.setPrefWidth(365);
-            label.setPrefHeight(50);
+            label.setPrefWidth(215);
+            if (content.length() > lineSize) {
+                label.setPrefHeight(50 + (line - 1) * 20);
+            } else {
+                label.setPrefHeight(50);
+            }
             chatRecord.getItems().add(label);
         }
         chatRecord.scrollTo(chatRecord.getItems().size() - 1);
+        ListView listView = new ListView();
+        listView.setPrefSize(150,200);
+        listView.setLayoutX(245);
+        String params = "id=" + chatWindowCache.getToId();
+        String post = HttpUtil.sendPost(ApiUrlManager.get_group_friend_list() + "?" + params, "");
+        JSONObject jsonObject = JSONObject.parseObject(post);
+        if (jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")) {
+            List<GoodFriendBean> goodFriendBeans = parseGoodFriendBean((List<JSONObject>)(jsonObject.get("data")));
+            for (final GoodFriendBean goodFriendBean : goodFriendBeans) {
+                Label label = new Label();
+                label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
+                label.setPrefSize(120, 50);
+                label.setStyle("-fx-background-color:#35D59D");
+                label.setTextFill(Paint.valueOf("WHITE"));
+                if(goodFriendBean.getId().longValue() != userInfoCache.getUserId()){
+                    label.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            chatUserTop.getChildren().clear();
+                            inputAndSend.setVisible(true);
+                            chatMessageCache.getUserNoReceiveSingerMsgMap().put(goodFriendBean.getId(), 0);
+                            chatWindowCache.setFromId(userInfoCache.getUserId());
+                            chatWindowCache.setToId(goodFriendBean.getId());
+                            chatWindowCache.setName(goodFriendBean.getName());
+                            chatWindowCache.setTel(goodFriendBean.getTel());
+                            Label lab = new Label();
+                            lab.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
+                            lab.setPrefWidth(350);
+                            lab.setPrefHeight(50);
+                            lab.setPadding(new Insets(5));
+                            chatUserTop.getChildren().add(lab);
+                            updateChatRecord();
+                        }
+                    });
+                }
+                label.setOnMouseExited(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        label.setStyle("-fx-background-color:#35D59D");
+                    }
+                });
+                label.setOnMouseMoved(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        label.setStyle("-fx-background-color:#60D5AC");
+                    }
+                });
+                listView.getItems().add(label);
+            }
+        }
+        chatModel.getChildren().add(chatRecord);
+        chatModel.getChildren().add(listView);
     }
 
     private String formatDateTime(long dateTime) {

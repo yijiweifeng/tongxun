@@ -39,7 +39,7 @@ public class IMSChatGroupNotMessageListener implements I_CEventListener {
             @Override
             public void run() {
                 //更新JavaFX的主线程的代码放在此处
-                if(chatWindowCache.getTel().longValue() == 0){
+                if(chatWindowCache.getTel() != null && chatWindowCache.getTel().longValue() == 0){
                     windowController.updateGroupChatRecord();
                 }
             }
