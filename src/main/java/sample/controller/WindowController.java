@@ -697,6 +697,7 @@ public class WindowController implements Initializable {
                             lab.setPrefHeight(50);
                             lab.setPadding(new Insets(5));
                             chatUserTop.getChildren().add(lab);
+                            showMyUser();
                             updateChatRecord();
                         }
                     });
