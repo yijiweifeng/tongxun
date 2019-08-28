@@ -71,6 +71,10 @@ public class WindowController implements Initializable {
 
     private FxmlInitCtroller fxmlInitCtroller = FxmlInitCtroller.getInstance();
 
+    public boolean isShowGroup = false;
+
+    public boolean isShowSinger = false;
+
     @FXML
     private Label userName;
 
@@ -198,16 +202,24 @@ public class WindowController implements Initializable {
 
     //获取好友列表
     public void showMyUser() {
+        windowController.setShowGroup(false);
+        windowController.setShowSinger(true);
         userList.getChildren().clear();
         List<JSONObject> data = queryMyUser();
         List<GoodFriendBean> goodFriendBeans = parseGoodFriendBean(data);
         int i = 0;
         for (final GoodFriendBean goodFriendBean : goodFriendBeans) {
             Label label = new Label();
-            label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
+            Integer count = chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId());
+            if(count != null && count > 0){
+                label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel() + "(" + count + "条未读)");
+                label.setTextFill(Paint.valueOf("RED"));
+            }else{
+                label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
+                label.setTextFill(Paint.valueOf("WHITE"));
+            }
             label.setPrefSize(148, 60);
             label.setStyle("-fx-background-color:#4282D3");
-            label.setTextFill(Paint.valueOf("WHITE"));
             label.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
@@ -224,6 +236,8 @@ public class WindowController implements Initializable {
                     lab.setPrefHeight(50);
                     lab.setPadding(new Insets(5));
                     chatUserTop.getChildren().add(lab);
+                    label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
+                    label.setTextFill(Paint.valueOf("WHITE"));
                     updateChatRecord();
                 }
             });
@@ -353,16 +367,24 @@ public class WindowController implements Initializable {
 
     //我的群组
     public void showMyGroup() {
+        windowController.setShowGroup(true);
+        windowController.setShowSinger(false);
         userList.getChildren().clear();
         List<JSONObject> data = queryMyGroup();
         List<GroupBean> groupBeans = parseGroupBean(data);
         int i = 0;
         for (final GroupBean groupBean : groupBeans) {
             Label label = new Label();
-            label.setText(groupBean.getGroupName());
+            Integer count = chatMessageCache.getUserNoReceiveGroupMsgMap().get(groupBean.getId());
+            if(count != null && count > 0){
+                label.setText(groupBean.getGroupName() + "(" + count + "条未读)");
+                label.setTextFill(Paint.valueOf("RED"));
+            }else{
+                label.setText(groupBean.getGroupName());
+                label.setTextFill(Paint.valueOf("WHITE"));
+            }
             label.setPrefSize(148, 60);
             label.setStyle("-fx-background-color:#4282D3");
-            label.setTextFill(Paint.valueOf("WHITE"));
             label.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
@@ -400,6 +422,8 @@ public class WindowController implements Initializable {
                     });
                     chatUserTop.getChildren().add(lab);
                     chatUserTop.getChildren().add(button);
+                    label.setText(groupBean.getGroupName());
+                    label.setTextFill(Paint.valueOf("WHITE"));
                     updateGroupChatRecord();
                 }
             });

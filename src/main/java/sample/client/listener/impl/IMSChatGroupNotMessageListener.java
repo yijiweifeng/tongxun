@@ -1,6 +1,7 @@
 package sample.client.listener.impl;
 
 import javafx.application.Platform;
+import sample.client.bean.GroupByMessage;
 import sample.client.bean.SingleMessage;
 import sample.client.cache.ChatMessageCache;
 import sample.client.cache.ChatWindowCache;
@@ -25,20 +26,23 @@ public class IMSChatGroupNotMessageListener implements I_CEventListener {
 
     @Override
     public void onCEvent(String topic, int msgCode, int resultCode, Object obj) {
-        SingleMessage singleMessage = (SingleMessage) obj;
+        GroupByMessage singleMessage = (GroupByMessage) obj;
         if(chatWindowCache == null || chatWindowCache.getToId() == null
                 || (chatWindowCache != null && chatWindowCache.getToId() != null)
-                && !chatWindowCache.getToId().equals(Long.valueOf(singleMessage.getFromId()))){
-            if (chatMessageCache.getUserNoReceiveSingerMsgMap().get(Long.valueOf(singleMessage.getFromId())) == null) {
-                chatMessageCache.getUserNoReceiveSingerMsgMap().put(Long.valueOf(singleMessage.getFromId()), 0);
+                && !chatWindowCache.getToId().equals(Long.valueOf(singleMessage.getGroupId()))){
+            if (chatMessageCache.getUserNoReceiveGroupMsgMap().get(Long.valueOf(singleMessage.getGroupId())) == null) {
+                chatMessageCache.getUserNoReceiveGroupMsgMap().put(Long.valueOf(singleMessage.getGroupId()), 0);
             }
-            chatMessageCache.getUserNoReceiveSingerMsgMap().put(Long.valueOf(singleMessage.getFromId()),
-                    chatMessageCache.getUserNoReceiveSingerMsgMap().get(Long.valueOf(singleMessage.getFromId())) + 1);
+            chatMessageCache.getUserNoReceiveGroupMsgMap().put(Long.valueOf(singleMessage.getGroupId()),
+                    chatMessageCache.getUserNoReceiveGroupMsgMap().get(Long.valueOf(singleMessage.getGroupId())) + 1);
         }
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 //更新JavaFX的主线程的代码放在此处
+                if(windowController.isShowGroup()){
+                    windowController.showMyGroup();
+                }
                 if(chatWindowCache.getTel() != null && chatWindowCache.getTel().longValue() == 0){
                     windowController.updateGroupChatRecord();
                 }
