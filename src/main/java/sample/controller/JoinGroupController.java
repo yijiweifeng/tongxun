@@ -101,6 +101,7 @@ public class JoinGroupController implements Initializable {
         String post = HttpUtil.sendPost(joinGroup + "?userId=" + friendId + "&groupId=" + ChatWindowCache.getInstance().getToId(), "");
         JSONObject jsonObject = JSONObject.parseObject(post);
         if (jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")) {
+            WindowController.windowController.updateGroupChatRecord();
             Stage stage = FxmlInitCtroller.getInstance().getSuccessStage();
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("success.fxml"));
             stage.setTitle("操作成功");
