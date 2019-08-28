@@ -19,6 +19,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import lombok.Data;
+import sample.client.cache.AllUserInfoCache;
 import sample.client.cache.StrCache;
 import sample.client.cache.UserInfoCache;
 import sample.client.utils.ApiUrlManager;
@@ -112,6 +113,7 @@ public class AddFriendController implements Initializable {
         String post = HttpUtil.sendPost(add_friend + "?id=" + userInfoCache.getUserId() + "&friendId=" + friendId, "");
         JSONObject jsonObject = JSONObject.parseObject(post);
         if (jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")) {
+            AllUserInfoCache.getInstance().clearMap();
             WindowController.windowController.showMyUser();
             Stage stage = fxmlInitCtroller.getSuccessStage();
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("success.fxml"));
