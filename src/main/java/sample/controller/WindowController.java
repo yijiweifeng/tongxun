@@ -603,7 +603,7 @@ public class WindowController implements Initializable {
         int lineSize = 25;
         chatModel.getChildren().clear();
         chatRecord.getItems().clear();
-        chatRecord.setPrefSize(395, 200);
+        chatRecord.setPrefSize(400, 200);
         Vector<ChatRecodeBean> chatRecode = getChatRecode(1);
         for (ChatRecodeBean chatRecodeBean : chatRecode) {
             String msg;
@@ -650,7 +650,7 @@ public class WindowController implements Initializable {
         int lineSize = 15;
         chatModel.getChildren().clear();
         chatRecord.getItems().clear();
-        chatRecord.setPrefSize(245, 200);
+        chatRecord.setPrefSize(250, 200);
         Vector<ChatRecodeBean> chatRecode = getChatRecode(2);
         for (ChatRecodeBean chatRecodeBean : chatRecode) {
             String msg;
@@ -692,7 +692,8 @@ public class WindowController implements Initializable {
         chatRecord.scrollTo(chatRecord.getItems().size() - 1);
         ListView listView = new ListView();
         listView.setPrefSize(150,200);
-        listView.setLayoutX(245);
+        listView.setLayoutX(250);
+        listView.setPadding(new Insets(0));
         String params = "id=" + chatWindowCache.getToId();
         String post = HttpUtil.sendPost(ApiUrlManager.get_group_friend_list() + "?" + params, "");
         JSONObject jsonObject = JSONObject.parseObject(post);
@@ -704,6 +705,7 @@ public class WindowController implements Initializable {
                 label.setPrefSize(120, 50);
                 label.setStyle("-fx-background-color:#35D59D");
                 label.setTextFill(Paint.valueOf("WHITE"));
+                label.setPadding(new Insets(0));
                 if(goodFriendBean.getId().longValue() != userInfoCache.getUserId()){
                     label.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
