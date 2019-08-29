@@ -1,6 +1,7 @@
 package sample.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,7 +32,7 @@ import java.util.ResourceBundle;
 public class AddGroupController implements Initializable {
 
     @FXML
-    private TextField groupName;
+    private JFXTextField groupName;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

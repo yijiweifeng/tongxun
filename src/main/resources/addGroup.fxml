@@ -8,11 +8,12 @@
 <?import javafx.scene.layout.*?>
 
 
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXButton?>
 <AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.AddGroupController">
    <children>
       <Label layoutX="23.0" layoutY="30.0" prefHeight="70.0" prefWidth="254.0" />
-      <Button fx:id="addGroupButton" onMouseClicked="#addGroup" layoutX="102.0" layoutY="119.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="97.0" text="确定" />
-      <Text layoutX="23.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="群组名称" />
-      <TextField fx:id="groupName" layoutX="88.0" layoutY="46.0" prefHeight="39.0" prefWidth="178.0" />
+      <JFXButton buttonType="RAISED" styleClass="normal_button" fx:id="addGroupButton" onMouseClicked="#addGroup" layoutX="102.0" layoutY="119.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="97.0" text="确定" />
+      <JFXTextField promptText="群组名称" fx:id="groupName" layoutX="23" layoutY="46.0" prefHeight="39.0" prefWidth="243.0" />
    </children>
 </AnchorPane>

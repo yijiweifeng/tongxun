@@ -1,6 +1,7 @@
 package sample.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jfoenix.controls.JFXButton;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -400,13 +401,14 @@ public class WindowController implements Initializable {
                     lab.setPrefWidth(350);
                     lab.setPrefHeight(50);
                     lab.setPadding(new Insets(5));
-                    Button button = new Button();
+                    JFXButton button = new JFXButton();
                     button.setPrefSize(36, 36);
-                    button.setTextFill(Paint.valueOf("WHITE"));
                     button.setAlignment(Pos.CENTER);
                     button.setText("+");
+                    button.setButtonType(JFXButton.ButtonType.valueOf("RAISED"));
+                    button.getStyleClass().add("normal_button");
                     button.setFont(Font.font(17));
-                    button.setStyle("-fx-background-color:#00CDCD;-fx-border-color:#FFFFFF");
+                    button.setStyle("-fx-border-color:#FFFFFF");
                     button.setLayoutX(350);
                     button.setLayoutY(7);
                     button.setOnMouseClicked(new EventHandler<MouseEvent>() {
