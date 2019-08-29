@@ -79,9 +79,10 @@ public class MySystemTray {
             SystemTray tray = SystemTray.getSystemTray();
             //弹出式菜单组件
             trayIcon.addMouseListener(new MouseAdapter() {
+                final JPopupMenu pop = new JPopupMenu();
+                @Override
                 public void mouseReleased(MouseEvent e) {
                     if (e.isPopupTrigger()) {
-                        final JPopupMenu pop = new JPopupMenu();
                         pop.add(showItem);
                         pop.add(exitItem);
                         pop.setLocation(e.getX(), e.getY() - 60);

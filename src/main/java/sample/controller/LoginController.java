@@ -124,11 +124,11 @@ public class LoginController implements Initializable {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                System.exit(0);
-//                MySystemTray.getInstance().hide(stage);
+//                System.exit(0);
+                MySystemTray.getInstance().hide(stage);
             }
         });
-//        MySystemTray.getInstance().listen(stage);
+        MySystemTray.getInstance().listen(stage);
     }
 
     private void showErrorModel() throws IOException {
