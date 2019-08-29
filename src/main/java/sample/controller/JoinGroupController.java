@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import sample.client.cache.ChatWindowCache;
 import sample.client.cache.StrCache;
 import sample.client.cache.UserInfoCache;
+import sample.client.utils.AddStyleCssUtil;
 import sample.client.utils.ApiUrlManager;
 import sample.client.utils.HttpUtil;
 import sample.fxmlinit.FxmlInitCtroller;
@@ -107,6 +108,8 @@ public class JoinGroupController implements Initializable {
             stage.setTitle("操作成功");
             Scene scene = new Scene(root, 300, 200);
             stage.setScene(scene);
+            stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
+            stage.getIcons().add(AddStyleCssUtil.addImageIcon());
             stage.show();
         }else{
             StrCache.getInstance().setErrorMsg(jsonObject.getString("desc"));
@@ -116,6 +119,8 @@ public class JoinGroupController implements Initializable {
             stage.setTitle("错误");
             Scene scene = new Scene(root, 300, 150);
             stage.setScene(scene);
+            stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
+            stage.getIcons().add(AddStyleCssUtil.addImageIcon());
             stage.show();
         }
     }

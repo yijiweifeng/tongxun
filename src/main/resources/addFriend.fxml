@@ -6,10 +6,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <AnchorPane prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.AddFriendController">
     <children>
-        <TextField fx:id="userTelInput" layoutX="20.0" layoutY="20.0" prefHeight="50.0" prefWidth="520.0" />
-        <Button fx:id="queryUser" layoutX="558.0" layoutY="20.0" onMouseClicked="#getUserList" mnemonicParsing="false" prefHeight="50.0" prefWidth="70.0" text="查询" />
+        <JFXTextField fx:id="userTelInput" promptText="手机号" layoutX="20.0" layoutY="20.0" prefHeight="50.0" prefWidth="520.0" />
+        <JFXButton buttonType="RAISED" styleClass="defult_button" fx:id="queryUser" layoutX="558.0" layoutY="20.0" onMouseClicked="#getUserList" mnemonicParsing="false" prefHeight="50.0" prefWidth="70.0" text="查询" />
         <ScrollPane hbarPolicy="NEVER" layoutX="20.0" layoutY="86.0" prefHeight="200.0" prefWidth="608.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="90.0">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="608.0">

@@ -42,10 +42,7 @@ import sample.client.listener.impl.IMSChatGroupNotMessageListener;
 import sample.client.listener.impl.IMSChatSingleMessageListener;
 import sample.client.listener.impl.IMSChatSingleNotMessageListener;
 import sample.client.protobuf.MessageProtobuf;
-import sample.client.utils.ApiUrlManager;
-import sample.client.utils.HttpUtil;
-import sample.client.utils.MessageBuilder;
-import sample.client.utils.PropertiesUtil;
+import sample.client.utils.*;
 import sample.fxmlinit.FxmlInitCtroller;
 
 import java.io.IOException;
@@ -197,6 +194,8 @@ public class WindowController implements Initializable {
         stage.setTitle("添加好友");
         Scene scene = new Scene(root, 650, 400);
         stage.setScene(scene);
+        stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
+        stage.getIcons().add(AddStyleCssUtil.addImageIcon());
         stage.show();
     }
 
@@ -451,6 +450,8 @@ public class WindowController implements Initializable {
         stage.setTitle("添加群组");
         Scene scene = new Scene(root, 300, 200);
         stage.setScene(scene);
+        stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
+        stage.getIcons().add(AddStyleCssUtil.addImageIcon());
         stage.show();
     }
 
@@ -461,6 +462,8 @@ public class WindowController implements Initializable {
         stage.setTitle("添加好友到群组");
         Scene scene = new Scene(root, 650, 400);
         stage.setScene(scene);
+        stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
+        stage.getIcons().add(AddStyleCssUtil.addImageIcon());
         stage.show();
     }
 

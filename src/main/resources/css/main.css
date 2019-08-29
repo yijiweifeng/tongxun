@@ -1,0 +1,9 @@
+.defult_button{
+    -fx-background-color:white;
+    -fx-text-fill: #0095FF;
+}
+
+.normal_button{
+    -fx-background-color:#0095FF;
+    -fx-text-fill: white;
+}

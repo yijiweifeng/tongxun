@@ -7,13 +7,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXPasswordField?>
 <Pane fx:id="loginModel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.LoginController">
     <children>
-        <TextField fx:id="account" layoutX="103.0" layoutY="63.0" prefHeight="30.0" prefWidth="150.0" />
-        <Text layoutX="43.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="手机号:" wrappingWidth="41.240234375" />
-        <Text layoutX="56.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="密码:" wrappingWidth="28.240234375" />
-        <Button fx:id="register" layoutX="57.0" layoutY="219.0" mnemonicParsing="false" onAction="#register" prefHeight="30.0" prefWidth="74.0" text="注册" />
-        <Button fx:id="login" layoutX="165.0" layoutY="219.0" mnemonicParsing="false" onAction="#login" prefHeight="30.0" prefWidth="74.0" text="登录" />
-      <PasswordField fx:id="password" layoutX="103.0" layoutY="142.0" prefHeight="30.0" prefWidth="150.0" />
+        <JFXTextField fx:id="account" promptText="手机号" layoutX="50.0" layoutY="63.0" prefHeight="30.0" prefWidth="200.0" />
+        <JFXButton fx:id="register" layoutX="57.0" buttonType="RAISED" layoutY="219.0" mnemonicParsing="false" onAction="#register" prefHeight="30.0" prefWidth="74.0" styleClass="defult_button" text="注册" />
+        <JFXButton fx:id="login" layoutX="165.0" buttonType="RAISED" layoutY="219.0" mnemonicParsing="false" onAction="#login" prefHeight="30.0" prefWidth="74.0" styleClass="normal_button" text="登录" />
+        <JFXPasswordField promptText="密码" fx:id="password" layoutX="50" layoutY="142.0" prefHeight="30.0" prefWidth="200.0" />
     </children>
 </Pane>

@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import sample.client.utils.AddStyleCssUtil;
 import sample.fxmlinit.FxmlInitCtroller;
 
 public class Main extends Application {
@@ -18,7 +19,7 @@ public class Main extends Application {
         primaryStage.setTitle("登录");
         Scene scene = new Scene(root, 300, 300);
         primaryStage.setScene(scene);
-        primaryStage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("msg.png")));
+        primaryStage = AddStyleCssUtil.addStyleCss(primaryStage);
         primaryStage.show();
         fxmlInitCtroller.setStage(primaryStage);
     }

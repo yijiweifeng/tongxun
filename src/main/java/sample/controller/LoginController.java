@@ -1,6 +1,8 @@
 package sample.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,10 +40,10 @@ public class LoginController implements Initializable {
     private UserInfoCache userInfoCache = UserInfoCache.getInstance();
 
     @FXML
-    private TextField account;
+    private JFXTextField account;
 
     @FXML
-    private PasswordField password;
+    private JFXPasswordField password;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -120,6 +122,8 @@ public class LoginController implements Initializable {
         stage.setTitle("聊天");
         Scene scene = new Scene(root, 650, 400);
         stage.setScene(scene);
+        stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
+        stage.getIcons().add(AddStyleCssUtil.addImageIcon());
         stage.show();
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -137,6 +141,8 @@ public class LoginController implements Initializable {
         stage.setTitle("错误");
         Scene scene = new Scene(root, 300, 150);
         stage.setScene(scene);
+        stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
+        stage.getIcons().add(AddStyleCssUtil.addImageIcon());
         stage.show();
     }
 }
