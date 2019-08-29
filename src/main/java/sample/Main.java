@@ -18,7 +18,7 @@ public class Main extends Application {
         primaryStage.setTitle("登录");
         Scene scene = new Scene(root, 300, 300);
         primaryStage.setScene(scene);
-        primaryStage.getIcons().add(new Image("file:" + getClass().getClassLoader().getResource("msg.png").getPath()));
+        primaryStage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("msg.png")));
         primaryStage.show();
         fxmlInitCtroller.setStage(primaryStage);
     }

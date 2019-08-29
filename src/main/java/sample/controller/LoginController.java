@@ -125,8 +125,10 @@ public class LoginController implements Initializable {
             @Override
             public void handle(WindowEvent event) {
                 System.exit(0);
+//                MySystemTray.getInstance().hide(stage);
             }
         });
+//        MySystemTray.getInstance().listen(stage);
     }
 
     private void showErrorModel() throws IOException {
