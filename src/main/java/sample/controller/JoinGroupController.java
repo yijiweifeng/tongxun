@@ -62,7 +62,7 @@ public class JoinGroupController implements Initializable {
                 }
                 Pane pane = new Pane();
                 pane.setPrefSize(596,50);
-                pane.setStyle("-fx-background-color:#00CDCD;-fx-border-color:#87CEEB");
+                pane.setStyle("-fx-background-color:#0095FF;-fx-border-color:#87CEEB");
                 Label label = new Label();
                 label.setAlignment(Pos.CENTER_LEFT);
                 label.setText(obj.get("name") != null ? (obj.getString("name") + "\n" + obj.getLong("tel")) : (obj.getLong("tel") + ""));
@@ -76,7 +76,7 @@ public class JoinGroupController implements Initializable {
                 button.setAlignment(Pos.CENTER);
                 button.setText("+");
                 button.setFont(Font.font(17));
-                button.setStyle("-fx-background-color:#00CDCD;-fx-border-color:#FFFFFF");
+                button.setStyle("-fx-background-color:#0095FF;-fx-border-color:#FFFFFF");
                 button.setLayoutX(550);
                 button.setLayoutY(7);
                 button.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -110,6 +110,7 @@ public class JoinGroupController implements Initializable {
             stage.setScene(scene);
             stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
             stage.getIcons().add(AddStyleCssUtil.addImageIcon());
+            stage.setResizable(false);
             stage.show();
         }else{
             StrCache.getInstance().setErrorMsg(jsonObject.getString("desc"));
@@ -121,6 +122,7 @@ public class JoinGroupController implements Initializable {
             stage.setScene(scene);
             stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
             stage.getIcons().add(AddStyleCssUtil.addImageIcon());
+            stage.setResizable(false);
             stage.show();
         }
     }

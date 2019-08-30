@@ -197,6 +197,7 @@ public class WindowController implements Initializable {
         stage.setScene(scene);
         stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
         stage.getIcons().add(AddStyleCssUtil.addImageIcon());
+        stage.setResizable(false);
         stage.show();
     }
 
@@ -470,6 +471,7 @@ public class WindowController implements Initializable {
         stage.setScene(scene);
         stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
         stage.getIcons().add(AddStyleCssUtil.addImageIcon());
+        stage.setResizable(false);
         stage.show();
     }
 
@@ -482,6 +484,7 @@ public class WindowController implements Initializable {
         stage.setScene(scene);
         stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
         stage.getIcons().add(AddStyleCssUtil.addImageIcon());
+        stage.setResizable(false);
         stage.show();
     }
 

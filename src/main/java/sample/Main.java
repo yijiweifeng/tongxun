@@ -20,6 +20,7 @@ public class Main extends Application {
         Scene scene = new Scene(root, 300, 300);
         primaryStage.setScene(scene);
         primaryStage = AddStyleCssUtil.addStyleCss(primaryStage);
+        primaryStage.setResizable(false);
         primaryStage.show();
         fxmlInitCtroller.setStage(primaryStage);
     }

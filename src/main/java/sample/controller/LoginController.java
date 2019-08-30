@@ -124,6 +124,7 @@ public class LoginController implements Initializable {
         stage.setScene(scene);
         stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
         stage.getIcons().add(AddStyleCssUtil.addImageIcon());
+        stage.setResizable(false);
         stage.show();
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -143,6 +144,7 @@ public class LoginController implements Initializable {
         stage.setScene(scene);
         stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
         stage.getIcons().add(AddStyleCssUtil.addImageIcon());
+        stage.setResizable(false);
         stage.show();
     }
 }

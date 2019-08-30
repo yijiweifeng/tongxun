@@ -55,6 +55,7 @@ public class AddGroupController implements Initializable {
                 stage.setScene(scene);
                 stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
                 stage.getIcons().add(AddStyleCssUtil.addImageIcon());
+                stage.setResizable(false);
                 stage.show();
                 FxmlInitCtroller.getInstance().getAddGroupStage().close();
             }else{
@@ -67,6 +68,7 @@ public class AddGroupController implements Initializable {
                 stage.setScene(scene);
                 stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
                 stage.getIcons().add(AddStyleCssUtil.addImageIcon());
+                stage.setResizable(false);
                 stage.show();
             }
         }else{
@@ -79,6 +81,7 @@ public class AddGroupController implements Initializable {
             stage.setScene(scene);
             stage.setScene(AddStyleCssUtil.addSceneStyle(scene));
             stage.getIcons().add(AddStyleCssUtil.addImageIcon());
+            stage.setResizable(false);
             stage.show();
         }
     }
