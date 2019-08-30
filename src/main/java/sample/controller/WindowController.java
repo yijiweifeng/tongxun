@@ -724,7 +724,7 @@ public class WindowController implements Initializable {
                 Label label = new Label();
                 label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
                 label.setPrefSize(120, 50);
-                label.setStyle("-fx-background-color:#35D59D");
+                label.setStyle("-fx-background-color:#7EACE6");
                 label.setTextFill(Paint.valueOf("WHITE"));
                 label.setPadding(new Insets(0));
                 if(goodFriendBean.getId().longValue() != userInfoCache.getUserId()){
@@ -752,13 +752,15 @@ public class WindowController implements Initializable {
                 label.setOnMouseExited(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        label.setStyle("-fx-background-color:#35D59D");
+                        label.setStyle("-fx-background-color:#7EACE6");
+                        label.setTextFill(Paint.valueOf("WHITE"));
                     }
                 });
                 label.setOnMouseMoved(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        label.setStyle("-fx-background-color:#60D5AC");
+                        label.setStyle("-fx-background-color:#ffffff");
+                        label.setTextFill(Paint.valueOf("#7EACE6"));
                     }
                 });
                 listView.getItems().add(label);
