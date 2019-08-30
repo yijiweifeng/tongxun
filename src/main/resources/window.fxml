@@ -16,25 +16,25 @@
 <?import com.jfoenix.controls.JFXButton?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.WindowController">
    <children>
-      <Pane id="leftMenu" prefHeight="400.0" prefWidth="100.0" style="-fx-background-color: #A895BF;">
+      <Pane id="leftMenu" prefHeight="400.0" prefWidth="100.0" style="-fx-background-color: #2366E0;">
          <children>
 <!--            <Label fx:id="massge" alignment="CENTER" contentDisplay="CENTER" layoutY="50.0" onMouseClicked="#showMassgeList" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #B2FFAE;" text="消息" textAlignment="CENTER" textFill="#0061ab" textOverrun="CLIP" wrapText="true" />-->
-            <Label fx:id="mailList" alignment="CENTER" contentDisplay="CENTER" layoutY="50.0" onMouseClicked="#showOrHideList" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #7D85E7;" text="通讯录" textAlignment="CENTER" textFill="#ffffff" textOverrun="CLIP" wrapText="true" />
+            <Label fx:id="mailList" alignment="CENTER" contentDisplay="CENTER" layoutY="50.0" onMouseClicked="#showOrHideList" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #C3D6F9;" text="通讯录" textAlignment="CENTER" textFill="#2366E0" textOverrun="CLIP" wrapText="true" />
             <VBox fx:id="modelBox" alignment="CENTER" layoutY="100.0" prefHeight="100.0" prefWidth="100.0" visible="false">
                <children>
-                  <Label fx:id="myFriend" alignment="CENTER" onMouseClicked="#showMyUser" prefHeight="25.0" prefWidth="100.0" text="我的好友" textFill="WHITE" />
-                  <Label fx:id="myGroup" alignment="CENTER" onMouseClicked="#showMyGroup" prefHeight="25.0" prefWidth="100.0" text="我的群组" textFill="WHITE" />
-                  <Label fx:id="addFriend" alignment="CENTER" onMouseClicked="#addUser" prefHeight="25.0" prefWidth="100.0" text="添加好友" textFill="WHITE" />
-                  <Label fx:id="addGroup" alignment="CENTER" onMouseClicked="#addGroup" prefHeight="25.0" prefWidth="100.0" text="添加群组" textFill="WHITE" />
+                  <Label fx:id="myFriend" alignment="CENTER" onMouseClicked="#showMyUser" prefHeight="25.0" prefWidth="100.0" text="我的好友" style="-fx-background-color: #80A8F0;" textFill="#ffffff" />
+                  <Label fx:id="myGroup" alignment="CENTER" onMouseClicked="#showMyGroup" prefHeight="25.0" prefWidth="100.0" text="我的群组" style="-fx-background-color: #80A8F0;" textFill="#ffffff" />
+                  <Label fx:id="addFriend" alignment="CENTER" onMouseClicked="#addUser" prefHeight="25.0" prefWidth="100.0" text="添加好友" style="-fx-background-color: #80A8F0;" textFill="#ffffff" />
+                  <Label fx:id="addGroup" alignment="CENTER" onMouseClicked="#addGroup" prefHeight="25.0" prefWidth="100.0" text="添加群组" style="-fx-background-color: #80A8F0;" textFill="#ffffff" />
                </children>
             </VBox>
          </children>
       </Pane>
-      <Pane layoutX="100.0" prefHeight="50.0" prefWidth="550.0" style="-fx-background-color: #D6B5FF;">
+      <Pane layoutX="100.0" prefHeight="50.0" prefWidth="550.0" style="-fx-background-color: #7EB2FF;">
          <children>
-            <Label fx:id="userName" alignment="CENTER" contentDisplay="CENTER" layoutX="450.0" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #6B3BA6;" text="用户" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true" />
+            <Label fx:id="userName" alignment="CENTER" contentDisplay="CENTER" layoutX="450.0" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #2366E0;" text="用户" textAlignment="CENTER" textFill="#ffffff" textOverrun="CLIP" wrapText="true" />
          </children></Pane>
-      <Pane layoutX="100.0" layoutY="50.0" prefHeight="350.0" prefWidth="550.0" style="-fx-background-color: #6495ED;">
+      <Pane layoutX="100.0" layoutY="50.0" prefHeight="350.0" prefWidth="550.0" style="-fx-background-color: #ffffff;">
          <children>
             <AnchorPane prefHeight="350.0" prefWidth="550.0">
                <children>
@@ -43,7 +43,7 @@
                         <children>
                            <ScrollPane maxHeight="350.0" maxWidth="150.0" minHeight="350.0" minWidth="150.0" prefHeight="350.0" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                               <content>
-                                 <GridPane fx:id="userList" prefWidth="135.0" style="-fx-background-color: #00CC00;">
+                                 <GridPane fx:id="userList" prefWidth="135.0" style="-fx-background-color: #C8C8C8;">
                                    <columnConstraints>
                                      <ColumnConstraints hgrow="SOMETIMES" />
                                    </columnConstraints>
@@ -64,7 +64,7 @@
                                <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
                              </rowConstraints>
                               <children>
-                                 <AnchorPane fx:id="inputAndSend" prefHeight="200.0" prefWidth="339.0" style="-fx-background-color: #FFF9D2;" visible="false" GridPane.rowIndex="2">
+                                 <AnchorPane fx:id="inputAndSend" prefHeight="200.0" prefWidth="339.0" style="-fx-background-color: #ffffff;-fx-border-color:#CECECE" visible="false" GridPane.rowIndex="2">
                                     <children>
                                        <TextArea fx:id="inputText" prefHeight="100.0" prefWidth="259.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="0.0" />
                                        <JFXButton buttonType="RAISED" styleClass="normal_button" layoutX="259.0" mnemonicParsing="false" onAction="#sendMassge" prefWidth="80.0" text="发送" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -72,11 +72,11 @@
                               </AnchorPane>
                                  <AnchorPane fx:id="chatModel" prefHeight="200.0" prefWidth="400.0" GridPane.rowIndex="1">
                                     <children>
-                                         <ListView fx:id="chatRecord" prefHeight="200" prefWidth="400.0" style="-fx-background-color: #F6D4FF;">
+                                         <ListView fx:id="chatRecord" prefHeight="200" prefWidth="400.0" style="-fx-background-color: #ffffff;">
                                       </ListView>
                                     </children>
                               </AnchorPane>
-                                 <AnchorPane prefHeight="50.0" prefWidth="395.0" style="-fx-background-color: #DCFFAE;">
+                                 <AnchorPane prefHeight="50.0" prefWidth="395.0" style="-fx-background-color: #EEF2F9;-fx-border-color:#CECECE" >
                                     <children>
                                        <Pane fx:id="chatUserTop" prefHeight="50.0" prefWidth="395.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-56.0" AnchorPane.topAnchor="0.0" />
                                     </children>

@@ -216,10 +216,10 @@ public class WindowController implements Initializable {
                 label.setTextFill(Paint.valueOf("RED"));
             }else{
                 label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
-                label.setTextFill(Paint.valueOf("WHITE"));
+                label.setTextFill(Paint.valueOf("#7EACE6"));
             }
             label.setPrefSize(148, 60);
-            label.setStyle("-fx-background-color:#4282D3");
+            label.setStyle("-fx-background-color:#ffffff");
             label.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
@@ -244,13 +244,20 @@ public class WindowController implements Initializable {
             label.setOnMouseExited(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    label.setStyle("-fx-background-color:#4282D3");
+                    label.setStyle("-fx-background-color:#ffffff");
+                    Integer count = chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId());
+                    if(count != null && count > 0){
+                        label.setTextFill(Paint.valueOf("RED"));
+                    }else{
+                        label.setTextFill(Paint.valueOf("#7EACE6"));
+                    }
                 }
             });
             label.setOnMouseMoved(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    label.setStyle("-fx-background-color:#6997D3");
+                    label.setStyle("-fx-background-color:#7EACE6");
+                    label.setTextFill(Paint.valueOf("WHITE"));
                 }
             });
             userList.add(label, 0, i);
@@ -287,8 +294,8 @@ public class WindowController implements Initializable {
                 label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
             }
             label.setPrefSize(148, 60);
-            label.setStyle("-fx-background-color:#4282D3");
-            label.setTextFill(Paint.valueOf("WHITE"));
+            label.setStyle("-fx-background-color:#ffffff");
+            label.setTextFill(Paint.valueOf("#7EACE6"));
             label.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
@@ -312,13 +319,15 @@ public class WindowController implements Initializable {
             label.setOnMouseExited(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    label.setStyle("-fx-background-color:#4282D3");
+                    label.setStyle("-fx-background-color:#ffffff");
+                    label.setTextFill(Paint.valueOf("#7EACE6"));
                 }
             });
             label.setOnMouseMoved(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    label.setStyle("-fx-background-color:#6997D3");
+                    label.setStyle("-fx-background-color:#7EACE6");
+                    label.setTextFill(Paint.valueOf("WHITE"));
                 }
             });
             userList.add(label, 0, i);
@@ -381,10 +390,10 @@ public class WindowController implements Initializable {
                 label.setTextFill(Paint.valueOf("RED"));
             }else{
                 label.setText(groupBean.getGroupName());
-                label.setTextFill(Paint.valueOf("WHITE"));
+                label.setTextFill(Paint.valueOf("#7EACE6"));
             }
             label.setPrefSize(148, 60);
-            label.setStyle("-fx-background-color:#4282D3");
+            label.setStyle("-fx-background-color:#ffffff");
             label.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
@@ -431,13 +440,20 @@ public class WindowController implements Initializable {
             label.setOnMouseExited(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    label.setStyle("-fx-background-color:#4282D3");
+                    label.setStyle("-fx-background-color:#ffffff");
+                    Integer count = chatMessageCache.getUserNoReceiveGroupMsgMap().get(groupBean.getId());
+                    if(count != null && count > 0){
+                        label.setTextFill(Paint.valueOf("RED"));
+                    }else{
+                        label.setTextFill(Paint.valueOf("#7EACE6"));
+                    }
                 }
             });
             label.setOnMouseMoved(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    label.setStyle("-fx-background-color:#6997D3");
+                    label.setStyle("-fx-background-color:#7EACE6");
+                    label.setTextFill(Paint.valueOf("WHITE"));
                 }
             });
             userList.add(label, 0, i);
