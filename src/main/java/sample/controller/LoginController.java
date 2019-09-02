@@ -57,13 +57,13 @@ public class LoginController implements Initializable {
         } else {
             String accountText = account.getText();
             String passwordText = password.getText();
-            String params = "tel=" + accountText + "&password=" + passwordText;
+            String params = "name=" + accountText + "&password=" + passwordText;
             String post = HttpUtil.sendPost(ApiUrlManager.login() + "?" + params, "");
             JSONObject jsonObject = JSONObject.parseObject(post);
             if(jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")){
                 Map<String,Object> data = (Map<String,Object>)jsonObject.get("data");
                 Long id = Long.valueOf(data.get("id").toString());
-                userInfoCache.setTel(Long.valueOf(data.get("tel").toString()));
+                userInfoCache.setTel(null);
                 userInfoCache.setUserId(id);
                 userInfoCache.setUserName(data.get("name") != null ? data.get("name").toString() : "");
                 showWindowModel();
@@ -79,23 +79,14 @@ public class LoginController implements Initializable {
                 || password.getText() == null || password.getText().isEmpty()) {
             showErrorModel();
         } else {
-            String reg = "^[0-9]{11}$";
             StringBuffer sb = new StringBuffer();
-            if(!Pattern.matches(reg,account.getText())){
-                sb.append("手机号格式错误,请重新输入!");
-            }
-            if(sb.length() > 0){
-                strCache.setErrorMsg(sb.toString());
-                showErrorModel();
-                return;
-            }
             if(password.getText().length() > 20){
                 sb.append("密码长度不能超过20 !");
             }
             if(sb.length() == 0){
                 String accountText = account.getText();
                 String passwordText = password.getText();
-                String params = "tel=" + accountText + "&password=" + passwordText;
+                String params = "name=" + accountText + "&password=" + passwordText;
                 String post = HttpUtil.sendPost(ApiUrlManager.regiser() + "?" + params, "");
                 JSONObject jsonObject = JSONObject.parseObject(post);
                 if(jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")){

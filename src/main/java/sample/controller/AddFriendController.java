@@ -64,7 +64,7 @@ public class AddFriendController implements Initializable {
     public void getUserList() {
         userList.getChildren().clear();
         String get_user_list = ApiUrlManager.get_user_list();
-        String post = HttpUtil.sendGet(get_user_list,(userTelInput.getText() != null && !userTelInput.getText().isEmpty()) ? "tel=" + userTelInput.getText() : "");
+        String post = HttpUtil.sendGet(get_user_list,(userTelInput.getText() != null && !userTelInput.getText().isEmpty()) ? "name=" + userTelInput.getText() : "");
         JSONObject jsonObject = JSONObject.parseObject(post);
         if (jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")) {
             List<JSONObject> data = (List<JSONObject>) (jsonObject.get("data"));
@@ -78,7 +78,7 @@ public class AddFriendController implements Initializable {
                 pane.setStyle("-fx-background-color:#0095FF;-fx-border-color:#87CEEB");
                 Label label = new Label();
                 label.setAlignment(Pos.CENTER_LEFT);
-                label.setText(obj.get("name") != null ? (obj.getString("name") + "\n" + obj.getLong("tel")) : (obj.getLong("tel") + ""));
+                label.setText(obj.get("name") != null ? (obj.getString("name")) : "未定义");
                 label.setPrefWidth(550);
                 label.setPrefHeight(50);
                 label.setTextFill(Paint.valueOf("WHITE"));

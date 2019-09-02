@@ -25,18 +25,16 @@ public class AllUserInfoCache {
     public Map<Long,JSONObject> userMap = new HashMap<>();
 
     public Map<Long,JSONObject> getUserMap(){
-        if(userMap.size() == 0){
-            if(list.size() == 0){
-                String get_user_list = ApiUrlManager.get_user_list();
-                String post = HttpUtil.sendGet(get_user_list,"");
-                JSONObject jsonObject = JSONObject.parseObject(post);
-                if (jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")) {
-                    list = (List<JSONObject>) (jsonObject.get("data"));
-                }
-            }
-            for(JSONObject object : list){
-                userMap.put(object.getLong("id"),object);
-            }
+        list.clear();
+        userMap.clear();
+        String get_user_list = ApiUrlManager.get_user_list();
+        String post = HttpUtil.sendGet(get_user_list,"");
+        JSONObject jsonObject = JSONObject.parseObject(post);
+        if (jsonObject.getString("result") != null && jsonObject.getString("result").equals("200")) {
+            list = (List<JSONObject>) (jsonObject.get("data"));
+        }
+        for(JSONObject object : list){
+            userMap.put(object.getLong("id"),object);
         }
         return userMap;
     }

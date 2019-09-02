@@ -20,6 +20,8 @@ public class ChatWindowCache {
 
     private Long tel;
 
+    private boolean isGroup;
+
     private static ChatWindowCache chatWindowCache;
 
     public static ChatWindowCache getInstance(){

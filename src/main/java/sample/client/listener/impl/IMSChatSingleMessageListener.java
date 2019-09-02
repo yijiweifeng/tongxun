@@ -32,23 +32,24 @@ public class IMSChatSingleMessageListener implements I_CEventListener {
     @Override
     public void onCEvent(String topic, int msgCode, int resultCode, Object obj) {
         SingleMessage singleMessage = (SingleMessage) obj;
-        if(chatWindowCache == null || chatWindowCache.getToId() == null
-                || (chatWindowCache != null && chatWindowCache.getToId() != null)
-                && !chatWindowCache.getToId().equals(Long.valueOf(singleMessage.getFromId()))){
-            if (chatMessageCache.getUserNoReceiveSingerMsgMap().get(Long.valueOf(singleMessage.getFromId())) == null) {
-                chatMessageCache.getUserNoReceiveSingerMsgMap().put(Long.valueOf(singleMessage.getFromId()), 0);
-            }
-            chatMessageCache.getUserNoReceiveSingerMsgMap().put(Long.valueOf(singleMessage.getFromId()),
-                    chatMessageCache.getUserNoReceiveSingerMsgMap().get(Long.valueOf(singleMessage.getFromId())) + 1);
+        if (chatMessageCache.getUserNoReceiveSingerMsgMap().get(Long.valueOf(singleMessage.getFromId())) == null) {
+            chatMessageCache.getUserNoReceiveSingerMsgMap().put(Long.valueOf(singleMessage.getFromId()), 0);
+        }
+        chatMessageCache.getUserNoReceiveSingerMsgMap().put(Long.valueOf(singleMessage.getFromId()),
+                chatMessageCache.getUserNoReceiveSingerMsgMap().get(Long.valueOf(singleMessage.getFromId())) + 1);
+        if ((chatWindowCache != null && chatWindowCache.getToId() != null)
+                && chatWindowCache.getToId().equals(Long.valueOf(singleMessage.getFromId()))
+                && !chatWindowCache.isGroup()) {
+            chatMessageCache.getUserNoReceiveSingerMsgMap().put(Long.valueOf(singleMessage.getFromId()), 0);
         }
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 //更新JavaFX的主线程的代码放在此处
-                if(windowController.isShowSinger()){
+                if (windowController.isShowSinger()) {
                     windowController.showMyUser();
                 }
-                if(chatWindowCache.getTel() != null && chatWindowCache.getTel().longValue() != 0){
+                if (!chatWindowCache.isGroup()) {
                     windowController.updateChatRecord();
                 }
             }

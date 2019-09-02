@@ -121,7 +121,7 @@ public class WindowController implements Initializable {
             CEventCenter.registerEventListener(new IMSChatSingleNotMessageListener(), Events.CHAT_SINGLE_MESSAGE_NOT);
             CEventCenter.registerEventListener(new IMSChatGroupMessageListener(), Events.CHAT_GROUP_MESSAGE);
             CEventCenter.registerEventListener(new IMSChatGroupNotMessageListener(), Events.CHAT_GROUP_MESSAGE_NOT);
-            userName.setText(userInfoCache.getTel() + "");
+            userName.setText(userInfoCache.getUserName() + "");
             inputText.setWrapText(true);
             inputText.setOnKeyReleased(new EventHandler<KeyEvent>() {
                 @Override
@@ -213,10 +213,10 @@ public class WindowController implements Initializable {
             Label label = new Label();
             Integer count = chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId());
             if(count != null && count > 0){
-                label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel() + "(" + count + "条未读)");
+                label.setText((goodFriendBean.getName() != null ? goodFriendBean.getName() : "未定义") + "(" + count + "条未读)");
                 label.setTextFill(Paint.valueOf("RED"));
             }else{
-                label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
+                label.setText(goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "未定义");
                 label.setTextFill(Paint.valueOf("#7EACE6"));
             }
             label.setPrefSize(148, 60);
@@ -230,14 +230,15 @@ public class WindowController implements Initializable {
                     chatWindowCache.setFromId(userInfoCache.getUserId());
                     chatWindowCache.setToId(goodFriendBean.getId());
                     chatWindowCache.setName(goodFriendBean.getName());
-                    chatWindowCache.setTel(goodFriendBean.getTel());
+                    chatWindowCache.setTel(null);
+                    chatWindowCache.setGroup(false);
                     Label lab = new Label();
-                    lab.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
+                    lab.setText(goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "未定义");
                     lab.setPrefWidth(350);
                     lab.setPrefHeight(50);
                     lab.setPadding(new Insets(5));
                     chatUserTop.getChildren().add(lab);
-                    label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
+                    label.setText(goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "未定义");
                     label.setTextFill(Paint.valueOf("WHITE"));
                     updateChatRecord();
                 }
@@ -286,13 +287,13 @@ public class WindowController implements Initializable {
             if (chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId()) > 0) {
                 if (goodFriendBean.getName() != null) {
                     label.setText(goodFriendBean.getName() + "(" + chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId())
-                            + ")\n" + goodFriendBean.getTel());
+                            + ")");
                 } else {
-                    label.setText(goodFriendBean.getTel() + "(" + chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId())
+                    label.setText("未定义(" + chatMessageCache.getUserNoReceiveSingerMsgMap().get(goodFriendBean.getId())
                             + ")");
                 }
             } else {
-                label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
+                label.setText(goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "未定义");
             }
             label.setPrefSize(148, 60);
             label.setStyle("-fx-background-color:#ffffff");
@@ -307,9 +308,10 @@ public class WindowController implements Initializable {
                     chatWindowCache.setFromId(userInfoCache.getUserId());
                     chatWindowCache.setToId(goodFriendBean.getId());
                     chatWindowCache.setName(goodFriendBean.getName());
-                    chatWindowCache.setTel(goodFriendBean.getTel());
+                    chatWindowCache.setTel(null);
+                    chatWindowCache.setGroup(false);
                     Label lab = new Label();
-                    lab.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
+                    lab.setText(goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "未定义");
                     lab.setPrefWidth(350);
                     lab.setPrefHeight(50);
                     lab.setPadding(new Insets(5));
@@ -346,7 +348,7 @@ public class WindowController implements Initializable {
         if (!inputText.getText().trim().isEmpty() && chatWindowCache.getToId() != null) {
             SingleMessage message = new SingleMessage();
             message.setMsgId(UUID.randomUUID().toString());
-            if (chatWindowCache.getTel().longValue() == 0) {
+            if (chatWindowCache.isGroup()) {
                 message.setMsgType(MessageType.GROUP_CHAT.getMsgType());
             } else {
                 message.setMsgType(MessageType.SINGLE_CHAT.getMsgType());
@@ -360,7 +362,7 @@ public class WindowController implements Initializable {
             NettyTcpClient.getInstance().sendMsg(build);
             inputText.setText("");
         }
-        if (chatWindowCache.getTel().longValue() == 0) {
+        if (chatWindowCache.isGroup()) {
             updateGroupChatRecord();
         } else {
             updateChatRecord();
@@ -405,6 +407,7 @@ public class WindowController implements Initializable {
                     chatWindowCache.setToId(groupBean.getId());
                     chatWindowCache.setName(groupBean.getGroupName());
                     chatWindowCache.setTel(0L);
+                    chatWindowCache.setGroup(true);
                     chatUserTop.setPrefSize(400, 50);
                     Label lab = new Label();
                     lab.setText(groupBean.getGroupName());
@@ -533,7 +536,7 @@ public class WindowController implements Initializable {
             GoodFriendBean goodFriendBean = new GoodFriendBean();
             goodFriendBean.setId(obj.getLong("id"));
             goodFriendBean.setName(obj.getString("name"));
-            goodFriendBean.setTel(obj.getLong("tel"));
+            goodFriendBean.setTel(null);
             goodFriendBean.setOnLine(obj.getBoolean("onLine"));
             goodFriendBeans.add(goodFriendBean);
         }
@@ -633,10 +636,10 @@ public class WindowController implements Initializable {
             String msg;
             final Label label = new Label();
             if (chatRecodeBean.getFromId().equals(userInfoCache.getUserId())) {
-                msg = userInfoCache.getTel() + " " + formatDateTime(chatRecodeBean.getSendTime()) + "\n";
+                msg = userInfoCache.getUserName() + " " + formatDateTime(chatRecodeBean.getSendTime()) + "\n";
                 label.setAlignment(Pos.CENTER_RIGHT);
             } else {
-                msg = chatWindowCache.getTel() + " " + formatDateTime(chatRecodeBean.getSendTime()) + "\n";
+                msg = chatWindowCache.getName() + " " + formatDateTime(chatRecodeBean.getSendTime()) + "\n";
                 label.setAlignment(Pos.CENTER_LEFT);
             }
             String content = chatRecodeBean.getContent();
@@ -680,10 +683,10 @@ public class WindowController implements Initializable {
             String msg;
             final Label label = new Label();
             if (chatRecodeBean.getFromId().equals(userInfoCache.getUserId())) {
-                msg = userInfoCache.getTel() + " " + formatDateTime(chatRecodeBean.getSendTime()) + "\n";
+                msg = userInfoCache.getUserName() + " " + formatDateTime(chatRecodeBean.getSendTime()) + "\n";
                 label.setAlignment(Pos.CENTER_RIGHT);
             } else {
-                msg = AllUserInfoCache.getInstance().getUserMap().get(chatRecodeBean.getFromId()).getLong("tel") + " " + formatDateTime(chatRecodeBean.getSendTime()) + "\n";
+                msg = AllUserInfoCache.getInstance().getUserMap().get(chatRecodeBean.getFromId()).getString("name") + " " + formatDateTime(chatRecodeBean.getSendTime()) + "\n";
                 label.setAlignment(Pos.CENTER_LEFT);
             }
             String content = chatRecodeBean.getContent();
@@ -725,7 +728,7 @@ public class WindowController implements Initializable {
             List<GoodFriendBean> goodFriendBeans = parseGoodFriendBean((List<JSONObject>)(jsonObject.get("data")));
             for (final GoodFriendBean goodFriendBean : goodFriendBeans) {
                 Label label = new Label();
-                label.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
+                label.setText(goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "未定义");
                 label.setPrefSize(120, 50);
                 label.setStyle("-fx-background-color:#7EACE6");
                 label.setTextFill(Paint.valueOf("WHITE"));
@@ -740,9 +743,10 @@ public class WindowController implements Initializable {
                             chatWindowCache.setFromId(userInfoCache.getUserId());
                             chatWindowCache.setToId(goodFriendBean.getId());
                             chatWindowCache.setName(goodFriendBean.getName());
-                            chatWindowCache.setTel(goodFriendBean.getTel());
+                            chatWindowCache.setTel(null);
+                            chatWindowCache.setGroup(false);
                             Label lab = new Label();
-                            lab.setText((goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "") + goodFriendBean.getTel());
+                            lab.setText(goodFriendBean.getName() != null ? (goodFriendBean.getName() + "\n") : "未定义 ");
                             lab.setPrefWidth(350);
                             lab.setPrefHeight(50);
                             lab.setPadding(new Insets(5));

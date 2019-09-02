@@ -29,7 +29,7 @@ public class ServerReportMessageHandler extends AbstractMessageHandler {
     protected void action(AppMessage message) {
         logger.info(TAG + " " + "收到消息状态报告，message=" + message);
         if(message.getHead().getStatusReport() == 1){
-            if(ChatWindowCache.getInstance().getTel().longValue() == 0){
+            if(ChatWindowCache.getInstance().isGroup()){
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {

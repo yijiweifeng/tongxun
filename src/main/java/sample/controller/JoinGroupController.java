@@ -65,7 +65,7 @@ public class JoinGroupController implements Initializable {
                 pane.setStyle("-fx-background-color:#0095FF;-fx-border-color:#87CEEB");
                 Label label = new Label();
                 label.setAlignment(Pos.CENTER_LEFT);
-                label.setText(obj.get("name") != null ? (obj.getString("name") + "\n" + obj.getLong("tel")) : (obj.getLong("tel") + ""));
+                label.setText(obj.get("name") != null ? (obj.getString("name")) : "未定义");
                 label.setPrefWidth(550);
                 label.setPrefHeight(50);
                 label.setTextFill(Paint.valueOf("WHITE"));
